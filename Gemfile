@@ -1,3 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'https', '-> 5.0'
+# Networking
+
+gem 'http', '~> 5.0'
+
+# Testing
+gem 'minitest', '~> 5.0'
