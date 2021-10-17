@@ -4,7 +4,11 @@ module NoFB
     # posts class
     class Posts
       def initialize(posts)
-        @posts = posts.each { |x| Post.new(x) }
+        @posts = posts.map { |x| Post.new(x) }
+      end
+
+      def posts
+        @posts
       end
   
       def size
@@ -12,7 +16,7 @@ module NoFB
       end
   
       def post_list
-        @post_list = posts.each { |x| x['id'] }
+        @post_list = posts.map { |x| x.id }
       end
     end
   

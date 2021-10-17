@@ -37,17 +37,17 @@ describe 'Tests FB Group API' do
     end
     it 'HAPPY: should updated_time' do
       @posts.posts.each_with_index.each { |post, idx|
-        post.updated_time.must_equal CORRECT['data'][idx]['updated_time']
+        _(post.updated_time).must_equal CORRECT['data'][idx]['updated_time']
       }
     end
     it 'HAPPY: should message' do
       @posts.posts.each_with_index.each { |post, idx|
-        post.message.must_equal CORRECT['data'][idx]['message']
+        _(post.message).must_equal CORRECT['data'][idx]['message']
       }
     end
     it 'HAPPY: should id' do
       @posts.posts.each_with_index.each { |post, idx|
-        post.id.must_equal CORRECT['data'][idx]['id']
+        _(post.id).must_equal CORRECT['data'][idx]['id']
       }
     end
   end
