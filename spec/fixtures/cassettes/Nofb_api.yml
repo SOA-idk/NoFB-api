@@ -1,0 +1,201 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.facebook.com//302165911402681/feed?access_token=EAAMtmnCjSZC4BAPiJfP9ZCeKcBfPfa6fJ0tnXVVACiPZCR0GdD7ePPanKoFBfPeUJ6Dm3iRShkQjZBtKZCN6cfHKqJkpLj5RT658yG18vGgikxJSKBKmCIbs2vAlbMhmoJn0o8pTto4ZCJklb0Fuu7gabvzLbY0QdyOgt1GZC5Jn2L6xZCj3ZCLCqVcHsfcnlZBkYbE9ikNb3aqjFZCsYNHQ0Gx
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Accept:
+      - application/json; charset=UTF-8
+      Connection:
+      - close
+      Host:
+      - graph.facebook.com
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Etag:
+      - '"509063d385d87811ab6be6dcffb129b0f29b0872"'
+      Content-Type:
+      - text/javascript; charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      - Origin
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      X-App-Usage:
+      - '{"call_count":3,"total_cputime":0,"total_time":2}'
+      X-Fb-Rlafr:
+      - '0'
+      Access-Control-Allow-Origin:
+      - "*"
+      Facebook-Api-Version:
+      - v12.0
+      Strict-Transport-Security:
+      - max-age=15552000; preload
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      X-Fb-Request-Id:
+      - AjDipsMkXdyG1bC7Gdl5Asj
+      X-Fb-Trace-Id:
+      - G9BBOiv+ta1
+      X-Fb-Rev:
+      - '1004607820'
+      X-Fb-Debug:
+      - MMnx97KD0UArR3USOsrVgU4dGNQCjInW0Hxegl8ED7/OdEZnSgituSwaU3YswYjxPqjWxVzmOzPI5viCaUTSJw==
+      Date:
+      - Sun, 24 Oct 2021 08:13:06 GMT
+      Priority:
+      - u=3,i
+      Transfer-Encoding:
+      - chunked
+      Alt-Svc:
+      - h3=":443"; ma=3600, h3-29=":443"; ma=3600,h3-27=":443"; ma=3600
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"data":[{"updated_time":"2021-10-17T05:06:28+0000","message":"Group
+        API \u4e0d\u6703\u53ea\u6293\u5f97\u5230\u81ea\u5df1\u767c\u7684\u6587\u5427?!?!?!","id":"302165911402681_302524504700155"},{"updated_time":"2021-10-16T11:34:06+0000","message":"\u6e2c\u8a66\u6e2c\u8a66group
+        api","id":"302165911402681_302248021394470"},{"updated_time":"2021-10-16T08:14:21+0000","message":"asdxcz","id":"302165911402681_302166054736000"},{"updated_time":"2021-10-16T08:14:04+0000","story":"\u5f90\u90c1\u958e\u5efa\u7acb\u4e86
+        bvsfgsf \u793e\u5718\u3002","id":"302165911402681_302165921402680"}],"paging":{"previous":"https:\/\/graph.facebook.com\/v12.0\/302165911402681\/feed?access_token=EAAMtmnCjSZC4BAPiJfP9ZCeKcBfPfa6fJ0tnXVVACiPZCR0GdD7ePPanKoFBfPeUJ6Dm3iRShkQjZBtKZCN6cfHKqJkpLj5RT658yG18vGgikxJSKBKmCIbs2vAlbMhmoJn0o8pTto4ZCJklb0Fuu7gabvzLbY0QdyOgt1GZC5Jn2L6xZCj3ZCLCqVcHsfcnlZBkYbE9ikNb3aqjFZCsYNHQ0Gx&__previous=1&since=1634447188&until&__paging_token=enc_AdCHXcTDsj5aC0FzuPMXZCU4fxHu6h4ywUczjK9CFDeRrvQ5uWDU9Gl8V9GQ4b95UvXhktNZAgrleklZBJKMfnWPsiC4KQMfaLRTG82KIJjEZAlMXtYembdFv0YMZBmbmpxZCp6VQgoWEZCPnO5BFApO30rhGBZA","next":"https:\/\/graph.facebook.com\/v12.0\/302165911402681\/feed?access_token=EAAMtmnCjSZC4BAPiJfP9ZCeKcBfPfa6fJ0tnXVVACiPZCR0GdD7ePPanKoFBfPeUJ6Dm3iRShkQjZBtKZCN6cfHKqJkpLj5RT658yG18vGgikxJSKBKmCIbs2vAlbMhmoJn0o8pTto4ZCJklb0Fuu7gabvzLbY0QdyOgt1GZC5Jn2L6xZCj3ZCLCqVcHsfcnlZBkYbE9ikNb3aqjFZCsYNHQ0Gx&until=1634372044&since&__paging_token=enc_AdCsvcLWING1h6SZB2NKCaZCcSki9Mj96mt9ggjUcKQj5hKw1Hd3mtpz85vmg0lzBO3ZBWoj9Q56XDYuyUjFwdiBpfXeJAY8hIOd4zK9SyDOJZBJUQcH1Qyw73LCVpHrTi5HS8OiEofk779cyATkC2QYijQZA&__previous"}}'
+  recorded_at: Sun, 24 Oct 2021 08:13:05 GMT
+- request:
+    method: get
+    uri: https://graph.facebook.com//4653165156/feed?access_token=EAAMtmnCjSZC4BAPiJfP9ZCeKcBfPfa6fJ0tnXVVACiPZCR0GdD7ePPanKoFBfPeUJ6Dm3iRShkQjZBtKZCN6cfHKqJkpLj5RT658yG18vGgikxJSKBKmCIbs2vAlbMhmoJn0o8pTto4ZCJklb0Fuu7gabvzLbY0QdyOgt1GZC5Jn2L6xZCj3ZCLCqVcHsfcnlZBkYbE9ikNb3aqjFZCsYNHQ0Gx
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Accept:
+      - application/json; charset=UTF-8
+      Connection:
+      - close
+      Host:
+      - graph.facebook.com
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Vary:
+      - Accept-Encoding
+      - Origin
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      X-App-Usage:
+      - '{"call_count":3,"total_cputime":0,"total_time":2}'
+      X-Fb-Rlafr:
+      - '0'
+      Content-Type:
+      - text/javascript; charset=UTF-8
+      Www-Authenticate:
+      - OAuth "Facebook Platform" "invalid_request" "Unsupported get request. Object
+        with ID '4653165156' does not exist, cannot be loaded due to missing permissions,
+        or does not support this operation. Please read the Graph API documentation
+        at https://developers.facebook.com/docs/graph-api"
+      Access-Control-Allow-Origin:
+      - "*"
+      Facebook-Api-Version:
+      - v12.0
+      Strict-Transport-Security:
+      - max-age=15552000; preload
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      X-Fb-Request-Id:
+      - A5fRMjw-wORthEd7WgRGxxt
+      X-Fb-Trace-Id:
+      - Dj8Dcr5pitl
+      X-Fb-Rev:
+      - '1004607820'
+      X-Fb-Debug:
+      - eaDT6EnHr6S3ZYZIobv7esBD9bJFatpccmgRdCLp/fsVICbCZTrItzl/RsiimmrgAD2BbnEwpdOYa5vGi+Mdjg==
+      Date:
+      - Sun, 24 Oct 2021 08:13:06 GMT
+      Transfer-Encoding:
+      - chunked
+      Alt-Svc:
+      - h3=":443"; ma=3600, h3-29=":443"; ma=3600,h3-27=":443"; ma=3600
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"error":{"message":"Unsupported get request. Object with ID ''4653165156''
+        does not exist, cannot be loaded due to missing permissions, or does not support
+        this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"A5fRMjw-wORthEd7WgRGxxt"}}'
+  recorded_at: Sun, 24 Oct 2021 08:13:06 GMT
+- request:
+    method: get
+    uri: https://graph.facebook.com//302165911402681/feed?access_token=sdfjiofasgacds
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Accept:
+      - application/json; charset=UTF-8
+      Connection:
+      - close
+      Host:
+      - graph.facebook.com
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Vary:
+      - Origin
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Fb-Rlafr:
+      - '0'
+      Content-Type:
+      - text/javascript; charset=UTF-8
+      Www-Authenticate:
+      - OAuth "Facebook Platform" "invalid_token" "Invalid OAuth access token."
+      Strict-Transport-Security:
+      - max-age=15552000; preload
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      X-Fb-Request-Id:
+      - AFNtGSSSdJHBoZwZhlHlprp
+      X-Fb-Trace-Id:
+      - CzmXNwlA8ZT
+      X-Fb-Rev:
+      - '1004607820'
+      X-Fb-Debug:
+      - SE28GDr3zw5kRfshLHYMVlsRcyTBmA5rPa71yeNCcSmUm0krxmPH/ztJLJhN08RznqLnp+HmXJTrw7Ibg2VWeQ==
+      Date:
+      - Sun, 24 Oct 2021 08:13:06 GMT
+      Alt-Svc:
+      - h3=":443"; ma=3600, h3-29=":443"; ma=3600,h3-27=":443"; ma=3600
+      Connection:
+      - close
+      Content-Length:
+      - '125'
+    body:
+      encoding: UTF-8
+      string: '{"error":{"message":"Invalid OAuth access token.","type":"OAuthException","code":190,"fbtrace_id":"AFNtGSSSdJHBoZwZhlHlprp"}}'
+  recorded_at: Sun, 24 Oct 2021 08:13:06 GMT
+recorded_with: VCR 6.0.0
