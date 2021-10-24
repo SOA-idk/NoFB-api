@@ -1,5 +1,5 @@
 # NoFB
-( README.md file that lists your resources, elements, and entities of interest )
+The best word to describe us is **Good**.
 
 ## Installation
 ```bash=
@@ -28,3 +28,10 @@ There are objects that are import  to the Facebook group.
 
 ## open the folder
 ```explorer.exe .```
+
+## Result of simpleCov
+![](https://i.imgur.com/r7acmhR.png)
+
+## Result of rake
+QAQ finally
+![](https://i.imgur.com/VYJDtX6.png)

@@ -28,13 +28,13 @@ describe 'Tests FB Group API' do
     it 'SAD: should raise exception on non-exit group id' do
       _(proc do
         NoFB::FBApi.new(ACCESS_TOKEN).posts('4653165156') # non-exit group id
-      end).must_raise NoFB::FBApi::Errors::BadRequest
+      end).must_raise Utility::Util::Errors::BadRequest
     end
   
     it 'SAD: should raise exception on error access token' do
       _(proc do
         NoFB::FBApi.new('sdfjiofasgacds').posts(GROUP_ID) # error access token
-      end).must_raise NoFB::FBApi::Errors::BadRequest
+      end).must_raise Utility::Util::Errors::BadRequest
     end
   end
 
