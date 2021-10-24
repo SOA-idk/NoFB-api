@@ -4,8 +4,11 @@ require 'yaml'
 
 require 'vcr'
 require 'webmock'
+require 'simplecov'
 
 require_relative '../lib/facebook_api'
+
+SimpleCov.start
 
 GROUP_ID = '302165911402681'
 CONFIG = YAML.safe_load(File.read('../config/secrets.yml'))
@@ -14,5 +17,3 @@ CORRECT = YAML.safe_load(File.read('./fixtures/nofb_results.yml'))
 
 CASSETTES_FOLDER = 'spec/fixtures/cassettes'
 CASSETTE_FILE = 'Nofb_api'
-
-

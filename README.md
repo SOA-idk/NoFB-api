@@ -25,3 +25,6 @@ When pushing to repo, remember to git add -u (in order to avoid Gemfile.lock).
 ## Entities
 There are objects that are import  to the Facebook group.
 * Posts
+
+## open the folder
+```explorer.exe .```
