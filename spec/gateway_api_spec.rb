@@ -21,27 +21,33 @@ describe 'Tests FB Group API' do
     it 'HAPPY: should provide correct posts attributes' do
       # puts CORRECT['data'].length()
       # puts CORRECT['data'].map { |x| x['id'] }
-      posts = NoFB::FBApi.new(ACCESS_TOKEN).posts(GROUP_ID)
+      # posts = NoFB::FBApi.new(ACCESS_TOKEN).posts(GROUP_ID)
+      posts = NoFB::FB::PostsMapper.new(ACCESS_TOKEN).find(GROUP_ID)
+  
       _(posts.size).must_equal CORRECT['data'].length()
       _(posts.post_list).must_equal CORRECT['data'].map { |x| x['id'] }
     end
     it 'SAD: should raise exception on non-exit group id' do
       _(proc do
-        NoFB::FBApi.new(ACCESS_TOKEN).posts('4653165156') # non-exit group id
-      end).must_raise Utility::Util::Errors::BadRequest
+        NoFB::FB::PostsMapper.new(ACCESS_TOKEN).find('4653165156') # non-exit group id
+      end).must_raise NoFB::FB::Api::Response::BadRequest
     end
   
     it 'SAD: should raise exception on error access token' do
       _(proc do
-        NoFB::FBApi.new('sdfjiofasgacds').posts(GROUP_ID) # error access token
-      end).must_raise Utility::Util::Errors::BadRequest
+        NoFB::FB::PostsMapper.new('sdfjiofasgacds').find(GROUP_ID) # error access token
+      end).must_raise NoFB::FB::Api::Response::BadRequest
     end
   end
 
   describe 'Post information' do
     before do
-      @posts = NoFB::FBApi.new(ACCESS_TOKEN).posts(GROUP_ID)
+      @posts = NoFB::FB::PostsMapper.new(ACCESS_TOKEN).find(GROUP_ID)
     end
+    it 'HAPPY: should recognize Posts' do
+      _(@posts.owner).must_be_kind_of  NoFB::Entity::Posts
+    end
+
     it 'HAPPY: should updated_time' do
       @posts.posts.each_with_index.each { |post, idx|
         _(post.updated_time).must_equal CORRECT['data'][idx]['updated_time']
