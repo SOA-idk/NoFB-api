@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry-types'
 require 'dry-struct'
 
@@ -7,9 +9,9 @@ module NoFB
     class Post < Dry::Struct
       include Dry.Types
 
-      attribute :id,        Integer.optional
-      attribute :message, Strict::String
-      attribute :updated_time,  Strict::String
+      attribute :id, Strict::String
+      attribute :message, String.optional
+      attribute :updated_time, Strict::String
     end
   end
 end

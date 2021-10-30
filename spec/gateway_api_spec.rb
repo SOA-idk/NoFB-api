@@ -45,7 +45,7 @@ describe 'Tests FB Group API' do
       @posts = NoFB::FB::PostsMapper.new(ACCESS_TOKEN).find(GROUP_ID)
     end
     it 'HAPPY: should recognize Posts' do
-      _(@posts.owner).must_be_kind_of  NoFB::Entity::Posts
+      _(@posts).must_be_kind_of NoFB::Entity::Posts
     end
 
     it 'HAPPY: should updated_time' do

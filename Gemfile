@@ -15,3 +15,10 @@ gem 'vcr', '~> 6.0'
 gem 'webmock', '~> 3.0'
 gem 'simplecov', '~> 0'
 gem 'reek'
+
+# Utility Tools
+gem 'rake'
+
+# Code Quality
+gem 'flog'
+gem 'rubocop'

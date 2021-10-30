@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry-types'
 require 'dry-struct'
 
@@ -8,10 +10,10 @@ module NoFB
     # Domain entity for team members
     class Posts < Dry::Struct
       include Dry.Types
-      
+
       attribute :posts, Strict::Array.of(Post)
       attribute :size, Strict::Integer
-      attribute :post_list,  Strict::String
+      attribute :post_list, Strict::Array.of(String)
     end
   end
 end

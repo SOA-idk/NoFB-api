@@ -1,19 +1,18 @@
 # frozen_string_literal: true
 
 require 'http'
-require_relative 'project'
-require_relative 'util'
 
 module NoFB
   # Library for Github Web API
   module FB
+    # just Api
     class Api
       def initialize(token)
         @fb_token = token
       end
 
       def posts(group_id)
-        Request.new(@fb_token).posts(group_id).parse
+        JSON.parse(Request.new(@fb_token).posts(group_id))
         # Posts.new(project_data)
       end
 
@@ -28,6 +27,7 @@ module NoFB
           get("#{API_PROJECT_ROOT}/#{group_id}/feed?access_token=#{@token}")
         end
 
+        # :reek:FeatureEnvy
         def get(url)
           http_response = HTTP.headers(
             'Accept' => 'application/json; charset=UTF-8'
@@ -41,8 +41,13 @@ module NoFB
 
       # Decorates HTTP responses from Github with success/error
       class Response < SimpleDelegator
+        # Unauthorized 401 descriptive comment
         Unauthorized = Class.new(StandardError)
+
+        # NotFound 404 descriptive comment
         NotFound = Class.new(StandardError)
+
+        # BadRequest 400 descriptive comment
         BadRequest = Class.new(StandardError)
 
         HTTP_ERROR = {
