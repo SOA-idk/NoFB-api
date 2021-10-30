@@ -6,7 +6,7 @@ require 'vcr'
 require 'webmock'
 require 'simplecov'
 
-require_relative '../lib/facebook_api'
+require_relative '../init'
 
 SimpleCov.start
 

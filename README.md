@@ -35,3 +35,6 @@ There are objects that are import  to the Facebook group.
 ## Result of rake
 QAQ finally
 ![](https://i.imgur.com/VYJDtX6.png)
+
+## Result of rake(10/30)
+![](https://i.imgur.com/i72Boxc.png)
