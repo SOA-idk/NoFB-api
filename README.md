@@ -1,5 +1,5 @@
 # NoFB
-( README.md file that lists your resources, elements, and entities of interest )
+The best word to describe us is **Good**.
 
 ## Installation
 ```bash=
@@ -25,3 +25,13 @@ When pushing to repo, remember to git add -u (in order to avoid Gemfile.lock).
 ## Entities
 There are objects that are import  to the Facebook group.
 * Posts
+
+## open the folder
+```explorer.exe .```
+
+## Result of simpleCov
+![](https://i.imgur.com/r7acmhR.png)
+
+## Result of rake
+QAQ finally
+![](https://i.imgur.com/VYJDtX6.png)

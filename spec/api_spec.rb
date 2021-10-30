@@ -1,15 +1,22 @@
-require 'minitest/autorun'
-require 'minitest/rg'
-require 'yaml'
-require_relative '../lib/facebook_api'
-
-GROUP_ID = '302165911402681'
-CONFIG = YAML.safe_load(File.read('../config/secrets.yml'))
-ACCESS_TOKEN = CONFIG['FB_TOKEN']
-CORRECT = YAML.safe_load(File.read('./fixtures/nofb_results.yml'))
-
+require_relative 'spec_helper'
 
 describe 'Tests FB Group API' do
+  VCR.configure do |c|
+    c.cassette_library_dir = CASSETTES_FOLDER
+    c.hook_into :webmock
+    
+    # c.filter_sensitive_data('')
+  end
+  before do 
+    VCR.insert_cassette(CASSETTE_FILE, 
+      record: :new_episodes,
+      match_requests_on: %i[method uri headers])
+  end
+
+  after do 
+    VCR.eject_cassette
+  end
+  
   describe 'Posts information' do
     it 'HAPPY: should provide correct posts attributes' do
       # puts CORRECT['data'].length()
@@ -21,13 +28,13 @@ describe 'Tests FB Group API' do
     it 'SAD: should raise exception on non-exit group id' do
       _(proc do
         NoFB::FBApi.new(ACCESS_TOKEN).posts('4653165156') # non-exit group id
-      end).must_raise NoFB::FBApi::Errors::BadRequest
+      end).must_raise Utility::Util::Errors::BadRequest
     end
   
     it 'SAD: should raise exception on error access token' do
       _(proc do
         NoFB::FBApi.new('sdfjiofasgacds').posts(GROUP_ID) # error access token
-      end).must_raise NoFB::FBApi::Errors::BadRequest
+      end).must_raise Utility::Util::Errors::BadRequest
     end
   end
 
