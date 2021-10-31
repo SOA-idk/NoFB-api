@@ -26,9 +26,6 @@ When pushing to repo, remember to git add -u (in order to avoid Gemfile.lock).
 There are objects that are import  to the Facebook group.
 * Posts
 
-## open the folder
-```explorer.exe .```
-
 ## Result of simpleCov
 ![](https://i.imgur.com/r7acmhR.png)
 
@@ -42,3 +39,25 @@ QAQ finally
 **result of mvc**
 ![](https://i.imgur.com/KT3KPeY.png)
 
+## Open the folder of wsl
+```explorer.exe .```
+
+If you want to run the app:
+```bash=
+rackup
+```
+
+如果有error，請跑這行:
+```bash=
+rbenv rehash
+```
+
+Check the code spec:
+```bash=
+rake spec
+```
+
+Check the quality of code:
+```bash=
+rake quality:all
+```
