@@ -19,8 +19,8 @@
         .row
           - posts.posts.each do |post|
             .col-sm-6
-              a.posts.detail 
-               = posts.message
+              p.posts.detail 
+               = post.message
             .col-sm-6
-              a.posts.detail 
-               = posts.updated_time
+              p.posts.detail 
+               = post.updated_time

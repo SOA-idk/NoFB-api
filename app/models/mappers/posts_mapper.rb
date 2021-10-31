@@ -16,7 +16,7 @@ module NoFB
       end
 
       # build a lot posts
-      # :reek:UtilityFunction
+      # :reek:FeatureEnvy
       def build_entities(project_data, group_id)
         project_data = project_data['data']
         posts = build_posts(project_data)
@@ -28,6 +28,7 @@ module NoFB
         )
       end
 
+      # :reek:UtilityFunction
       def build_posts(project_data)
         posts = []
         project_data.each do |data|

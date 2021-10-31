@@ -38,3 +38,7 @@ QAQ finally
 
 ## Result of rake(10/30)
 ![](https://i.imgur.com/i72Boxc.png)
+
+**result of mvc**
+![](https://i.imgur.com/KT3KPeY.png)
+
