@@ -12,24 +12,29 @@ module NoFB
 
       def find(group_id)
         data = @gateway.posts(group_id)
-        build_entities(data)
+        build_entities(data, group_id)
       end
 
       # build a lot posts
-      # :reek:UtilityFunction
-      def build_entities(project_data)
+      # :reek:FeatureEnvy
+      def build_entities(project_data, group_id)
         project_data = project_data['data']
-        posts = []
-
-        project_data.each do |data|
-          posts << DataMapper.new(data).build_entity
-        end
-
+        posts = build_posts(project_data)
         NoFB::Entity::Posts.new(
           posts: posts,
           size: posts.length,
-          post_list: posts.map(&:id)
+          post_list: posts.map(&:id),
+          group_id: group_id
         )
+      end
+
+      # :reek:UtilityFunction
+      def build_posts(project_data)
+        posts = []
+        project_data.each do |data|
+          posts << DataMapper.new(data).build_entity
+        end
+        posts
       end
 
       # Extracts entity specific elements from data structure
