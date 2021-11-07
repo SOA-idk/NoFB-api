@@ -9,9 +9,15 @@ module NoFB
     class Post < Dry::Struct
       include Dry.Types
 
-      attribute :id, Strict::String
-      attribute :message, String.optional
+      attribute :post_id, Strict::String
       attribute :updated_time, Strict::String
+      attribute :message, String.optional
+      attribute :user_id, Strict::String
+      attribute :group_id, Strict::String
+
+      def to_attr_hash
+        to_hash.reject { |key, _| [:id].include? key }
+      end
     end
   end
 end
