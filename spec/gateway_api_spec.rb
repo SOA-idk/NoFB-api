@@ -1,20 +1,13 @@
 require_relative 'spec_helper'
+require_relative 'helpers/vcr_helper'
 
 describe 'Tests FB Group API' do
-  VCR.configure do |c|
-    c.cassette_library_dir = CASSETTES_FOLDER
-    c.hook_into :webmock
-    
-    # c.filter_sensitive_data('')
-  end
   before do 
-    VCR.insert_cassette(CASSETTE_FILE, 
-      record: :new_episodes,
-      match_requests_on: %i[method uri headers])
+    VcrHelper.configure_vcr_for_fb
   end
 
   after do 
-    VCR.eject_cassette
+    VcrHelper.eject_vcr
   end
   
   describe 'Posts information' do

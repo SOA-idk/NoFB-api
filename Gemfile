@@ -22,6 +22,7 @@ gem 'http', '~> 5.0'
 gem 'hirb', '~> 0'
 gem 'hirb-unicode', '~> 0'
 gem 'sequel', '~> 5.49'
+gem 'database-cleaner'
 
 group :development, :test do
   gem 'sqlite3', '~> 1.4'
