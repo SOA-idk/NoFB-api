@@ -9,7 +9,7 @@ module NoFB
     plugin :render, engine: 'slim', views: 'app/views'
     plugin :public, root: 'app/views/public'
     plugin :assets, path: 'app/views/assets',
-                    css: 'style.css', js: 'table_row_click.js'
+                    css: 'style.css'
     plugin :halt
 
     # rubocop:disable Metrics/BlockLength
@@ -20,7 +20,7 @@ module NoFB
       # GET /
       routing.root do
         # posts = Repository::For.klass(Entity::Posts).all
-        view 'home'#, locals: { posts: posts }
+        view 'home' #, locals: { posts: posts }
       end
 
       routing.on 'group' do
@@ -32,6 +32,7 @@ module NoFB
                                     (fb_url.split('/').count >= 5)
             group_id = fb_url.split('/')[-1..][0].strip
 
+            puts "group / groupId: #{group_id}"
             # routing.redirect "group/#{group_id}"
             # Get project from Github
             posts = FB::PostsMapper.new(App.config.FB_TOKEN)
@@ -44,18 +45,19 @@ module NoFB
             routing.redirect "group/#{group_id}"
           end
         end
-      end
 
-      routing.on String do |group_id|
-        puts "fb_token: #{FB_TOKEN}"
-        puts "group_id: #{group_id}"
-        # GET /group/group_id
-        routing.get do
-          # Get project from database
-          posts = Repository::For.klass(Entity::Posts)
-                                 .find_full_name(group_id)
+        routing.on String do |group_id|
+          puts "fb_token: #{App.config.FB_TOKEN}"
+          puts "last / group_id: #{group_id}\n"
+          # GET /group/group_id
+          routing.get do
+            # Get project from database
+            puts "rebuild / group_id: #{group_id}\n"
+            posts = Repository::For.klass(Entity::Posts)
+                                  .find_user_id_group_id('100000130616092', group_id.to_s)
 
-          view 'posts', locals: { posts: posts }
+            view 'posts', locals: { posts: posts }
+          end
         end
       end
     end

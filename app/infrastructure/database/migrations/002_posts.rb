@@ -11,7 +11,7 @@ Sequel.migration do
 
       String      :message
 
-      DateTime :updated_time
+      String :updated_time
 
       primary_key [:post_id]
     end

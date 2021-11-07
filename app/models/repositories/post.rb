@@ -16,11 +16,11 @@ module NoFB
         return nil unless db_record
 
         Entity::Post.new(
-          post_id: db_record.post_id,
+          post_id: db_record.post_id.to_s,
           updated_time: db_record.updated_time,
           message: db_record.message,
-          user_id: db_record.user_id,
-          group_id: db_record.group_id
+          user_id: db_record.user_id.to_s,
+          group_id: db_record.group_id.to_s
         )
       end
 
@@ -31,19 +31,26 @@ module NoFB
       end
 
       def self.db_find_or_create(entity)
-        user = Entity::User.new(
-          user_id: '100000130616092',
-          user_email: 'abc@gmail.com',
-          access_token: "Idon'tcare"
-        )
-        Database::UsersOrm.find_or_create(user.to_attr_hash)
+        # group = Entity::Group.new(
+        #   group_id: entity.group_id,
+        #   group_name: 'lalalala',
+        # )
+        Database::GroupsOrm.find_or_create(:group_id => entity.group_id,
+                                           :group_name => 'lalalala')
 
-        group = Entity::Group.new(
-          group_id: entity.group_id,
-          group_name: 'lalalala',
-        )
-        Database::GroupsOrm.find_or_create(group.to_attr_hash)
-        Database::PostsOrm.find_or_create(entity.to_attr_hash)
+        # user = Entity::User.new(
+        #   user_id: '100000130616092',
+        #   user_email: 'abc@gmail.com',
+        #   access_token: "Idontcare"
+        # )
+        Database::UsersOrm.find_or_create(:user_id=> '100000130616092',
+          :user_email=> 'abc@gmail.com', :access_token => "Idontcare")
+
+        Database::PostsOrm.find_or_create(:post_id => entity.post_id,
+                                          :updated_time => entity.updated_time,
+                                          :message => entity.message,
+                                          :user_id => entity.user_id,
+                                          :group_id => entity.group_id)
       end
     end
   end

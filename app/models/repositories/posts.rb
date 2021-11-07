@@ -4,8 +4,12 @@ module NoFB
   module Repository
     # Repository for post
     class Posts
+      def self.all
+        rebuild_entity Database::PostsOrm.all
+      end
+
       def self.find_user_id_group_id(user_id, group_id)
-        rebuild_entity Database::PostsOrm.all(user_id: user_id, group_id: group_id)
+        rebuild_entity Database::PostsOrm.where(user_id: user_id, group_id: group_id)
       end
 
       def self.rebuild_entity(db_records)
@@ -15,9 +19,9 @@ module NoFB
 
         Entity::Posts.new(
           posts: Post.rebuild_many(db_records),
-          size: db_records.length,
+          size: db_records.count,
           post_list: post_list,
-          group_id: db_records[0].group_id # all db_records.group_id should be the same
+          group_id: db_records.first.group_id.to_s # all db_records.group_id should be the same
         )
       end
 

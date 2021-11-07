@@ -21,9 +21,9 @@ module NoFB
         puts member_info
         puts member_info[:post_id]
         puts PostsOrm.dataset.all
-        puts first(post_id: member_info[:post_id])
-        puts create(member_info)
-        # first(post_id: member_info[:post_id]) || create(member_info)
+        # puts first(post_id: member_info[:post_id])
+        # puts create(member_info)
+        first(post_id: member_info[:post_id]) || insert(member_info)
         puts PostsOrm.dataset.all
       end
     end

@@ -24,10 +24,10 @@ module NoFB
         puts UsersOrm.dataset.all
         puts member_info
         puts member_info[:user_id]
-        puts first(user_id: member_info[:user_id])
-        puts create(member_info)
+        # puts first(user_id: member_info[:user_id])
+        # puts insert(member_info)
         
-        # first(user_id: member_info[:user_id]) || create(member_info)
+        first(user_id: member_info[:user_id]) || insert(member_info)
         puts UsersOrm.dataset.all
         puts UsersOrm[user_id: member_info[:user_id]]
       end
