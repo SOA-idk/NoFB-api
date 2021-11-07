@@ -1,0 +1,21 @@
+# frozen_string_literal: true
+
+require 'sequel'
+
+Sequel.migration do
+  change do
+    create_table(:posts) do
+      primary_key :post_id
+      foreign_key :group_id, :groups
+      foreign_key :user_id, :users
+
+      String      :post_id
+      String      :message
+      String      :user_id
+      String      :group_id
+
+      DateTime :created_at
+      DateTime :updated_at
+    end
+  end
+end
