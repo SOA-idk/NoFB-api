@@ -1,7 +1,42 @@
 {
   "RSpec": {
     "coverage": {
+      "/home/horace/NoFB/spec/helpers/vcr_helper.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          0,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          1,
+          0,
+          0,
+          0,
+          null,
+          null,
+          0,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null
+        ]
+      }
     },
-    "timestamp": 1635652569
+    "timestamp": 1636291597
   }
 }

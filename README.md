@@ -92,5 +92,8 @@ rake db:drop
 | String  | String     | String       |
 
 
-## Result of rake quality:all(11/7)
+## Result of rake (11/7)
+- quality:all
 ![](https://i.imgur.com/Mu1vTvB.png)
+- spec
+![](https://i.imgur.com/AL3WXZp.png)
