@@ -22,4 +22,3 @@ module NoFB
     end
   end
 end
-

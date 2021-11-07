@@ -35,22 +35,24 @@ module NoFB
         #   group_id: entity.group_id,
         #   group_name: 'lalalala',
         # )
-        Database::GroupsOrm.find_or_create(:group_id => entity.group_id,
-                                           :group_name => 'lalalala')
+        group_id = entity.group_id
+
+        Database::GroupsOrm.find_or_create(group_id: group_id,
+                                           group_name: 'lalalala')
 
         # user = Entity::User.new(
         #   user_id: '100000130616092',
         #   user_email: 'abc@gmail.com',
         #   access_token: "Idontcare"
         # )
-        Database::UsersOrm.find_or_create(:user_id=> '100000130616092',
-          :user_email=> 'abc@gmail.com', :access_token => "Idontcare")
+        Database::UsersOrm.find_or_create(user_id: '100000130616092',
+                                          user_email: 'abc@gmail.com', access_token: 'Idontcare')
 
-        Database::PostsOrm.find_or_create(:post_id => entity.post_id,
-                                          :updated_time => entity.updated_time,
-                                          :message => entity.message,
-                                          :user_id => entity.user_id,
-                                          :group_id => entity.group_id)
+        Database::PostsOrm.find_or_create(post_id: entity.post_id,
+                                          updated_time: entity.updated_time,
+                                          message: entity.message,
+                                          user_id: entity.user_id,
+                                          group_id: group_id)
       end
     end
   end

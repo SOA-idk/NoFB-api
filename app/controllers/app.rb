@@ -20,7 +20,7 @@ module NoFB
       # GET /
       routing.root do
         # posts = Repository::For.klass(Entity::Posts).all
-        view 'home' #, locals: { posts: posts }
+        view 'home' # , locals: { posts: posts }
       end
 
       routing.on 'group' do
@@ -54,7 +54,7 @@ module NoFB
             # Get project from database
             puts "rebuild / group_id: #{group_id}\n"
             posts = Repository::For.klass(Entity::Posts)
-                                  .find_user_id_group_id('100000130616092', group_id.to_s)
+                                   .find_user_id_group_id('100000130616092', group_id.to_s)
 
             view 'posts', locals: { posts: posts }
           end

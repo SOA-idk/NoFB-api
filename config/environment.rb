@@ -26,7 +26,10 @@ module NoFB
 
       # Database Setup
       DB = Sequel.connect(ENV['DATABASE_URL'])
-      def self.DB() = DB # rubocop:disable Naming/MethodName
+      # rubocop:disable Naming/MethodName
+      # :reek:UncommunicativeMethodName
+      def self.DB() = DB
+      # rubocop:enable Naming/MethodName
     end
     # rubocop:enable Lint/ConstantDefinitionInBlock
   end

@@ -4,6 +4,7 @@
 
 # Helper to clean database during test runs
 module DatabaseHelper
+  # :reek:DuplicateMethodCall { max_calls: 2 }
   def self.wipe_database
     # Ignore foreign key constraints when wiping tables
     NoFB::App.DB.run('PRAGMA foreign_keys = OFF')

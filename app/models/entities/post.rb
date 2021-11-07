@@ -12,7 +12,7 @@ module NoFB
       attribute :post_id, Strict::String
       attribute :updated_time, Strict::String
       attribute :message, String.optional
-      attribute :user_id, String::optional
+      attribute :user_id, String.optional
       attribute :group_id, Strict::String
 
       def to_attr_hash

@@ -9,7 +9,7 @@ module NoFB
     class Group < Dry::Struct
       include Dry.Types
 
-      attribute :group_name, String::optional
+      attribute :group_name, String.optional
       attribute :group_id, Strict::String
 
       def to_attr_hash

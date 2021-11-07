@@ -5,27 +5,24 @@ require 'webmock'
 
 # Setting up VCR
 module VcrHelper
-  CASSETTES_FOLDER = 'spec/fixtures/cassettes'.freeze
-  FB_CASSETTE = 'NoFB_api'.freeze
+  CASSETTES_FOLDER = 'spec/fixtures/cassettes'
+  FB_CASSETTE = 'NoFB_api'
 
-  def self.setup_vcr    
-    VCR.configure do |c|
-      c.cassette_library_dir = CASSETTES_FOLDER
-      c.hook_into :webmock
+  def self.setup_vcr
+    VCR.configure do |cassette|
+      cassette.cassette_library_dir = CASSETTES_FOLDER
+      cassette.hook_into :webmock
     end
   end
 
+  # :reek:TooManyStatements
   def self.configure_vcr_for_fb
-    VCR.configure do |c|
-      c.filter_sensitive_data('<FB_TOKEN>') { FB_TOKEN }
-      c.filter_sensitive_data('<FB_TOKEN_ESC>') { CGI.escape(FB_TOKEN) }
+    VCR.configure do |cassette|
+      cassette.filter_sensitive_data('<FB_TOKEN>') { FB_TOKEN }
+      cassette.filter_sensitive_data('<FB_TOKEN_ESC>') { CGI.escape(FB_TOKEN) }
     end
 
-    VCR.insert_cassette(
-      FB_CASSETTE,
-      record: :new_episodes,
-      match_requests_on: %i[method uri headers]
-    )
+    VCR.insert_cassette(FB_CASSETTE, record: :new_episodes, match_requests_on: %i[method uri headers])
   end
 
   def self.eject_vcr

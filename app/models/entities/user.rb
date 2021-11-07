@@ -8,8 +8,8 @@ module NoFB
     # Domain entity for team members
     class User < Dry::Struct
       include Dry.Types
-      attribute :access_token, String::optional
-      attribute :user_email, String::optional
+      attribute :access_token, String.optional
+      attribute :user_email, String.optional
       attribute :user_id, Strict::String
 
       def to_attr_hash

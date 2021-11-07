@@ -20,16 +20,12 @@ module NoFB
 
       def self.find_or_create(member_info)
         UsersOrm.strict_param_setting = false
-        puts UsersOrm.columns
-        puts UsersOrm.dataset.all
-        puts member_info
-        puts member_info[:user_id]
+        # puts UsersOrm.columns
+        # puts member_info
+        # puts member_info[:user_id]
         # puts first(user_id: member_info[:user_id])
         # puts insert(member_info)
-        
         first(user_id: member_info[:user_id]) || insert(member_info)
-        puts UsersOrm.dataset.all
-        puts UsersOrm[user_id: member_info[:user_id]]
       end
     end
   end

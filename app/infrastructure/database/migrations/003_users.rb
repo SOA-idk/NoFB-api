@@ -5,7 +5,7 @@ require 'sequel'
 Sequel.migration do
   change do
     create_table(:users) do
-      String      :user_id,  unique: true#, null: false
+      String      :user_id, unique: true # , null: false
       String      :user_email
       String      :access_token
 

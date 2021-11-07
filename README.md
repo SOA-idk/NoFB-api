@@ -61,3 +61,36 @@ Check the quality of code:
 ```bash=
 rake quality:all
 ```
+
+Run the db
+```bash=
+rake db:migrate
+```
+
+Drop the db
+```bash=
+rake db:drop
+```
+
+## Design of table in Database
+1. Groups
+
+| group_id | group_name | updated_at | created_at |
+| -------- | ---------- | ---------- | ---------- |
+| String   | String     | String     | String     |
+
+2. Posts
+
+| post_id | updated_time | message | user_id | group_id |
+| ------- | ------------ | ------- | ------- | -------- |
+| String  | String       | String  | String  | String   |
+
+3. Users
+
+| user_id | user_email | access_token |
+| ------- | ---------- | ------------ |
+| String  | String     | String       |
+
+
+## Result of rake quality:all(11/7)
+![](https://i.imgur.com/Mu1vTvB.png)
