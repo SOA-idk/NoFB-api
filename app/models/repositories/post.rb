@@ -4,8 +4,8 @@ module NoFB
   module Repository
     # Repository for post
     class Post
-      def self.find_id(id)
-        rebuild_entity Database::PostsOrm.first(id: id)
+      def self.find_id(post_id)
+        rebuild_entity Database::PostsOrm.first(post_id: post_id)
       end
 
       def self.find_message(message)
@@ -31,6 +31,18 @@ module NoFB
       end
 
       def self.db_find_or_create(entity)
+        user = Entity::User.new(
+          user_id: '123',
+          user_email: 'abc@gmail.com',
+          access_token: "Idon'tcare"
+        )
+        Database::UsersOrm.find_or_create(user.to_attr_hash)
+
+        group = Entity::Group.new(
+          group_id: entity.group_id,
+          group_name: 'lalalala',
+        )
+        Database::GroupsOrm.find_or_create(group.to_attr_hash)
         Database::PostsOrm.find_or_create(entity.to_attr_hash)
       end
     end

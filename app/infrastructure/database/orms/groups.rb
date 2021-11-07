@@ -17,6 +17,11 @@ module NoFB
       #            left_key: :member_id, right_key: :project_id
 
       plugin :timestamps, update_on_create: true
+
+      def self.find_or_create(member_info)
+        GroupsOrm.strict_param_setting = false
+        first(group_id: member_info[:group_id]) || create(member_info)
+      end
     end
   end
 end

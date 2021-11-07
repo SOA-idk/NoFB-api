@@ -8,8 +8,8 @@ require 'sequel'
 module NoFB
   # Configuration for the App
   class App < Roda
-    plugin :environment
-    
+    plugin :environments
+
     # rubocop:disable Lint/ConstantDefinitionInBlock
     configure do
       # Environment variables setup

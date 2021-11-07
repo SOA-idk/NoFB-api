@@ -23,7 +23,7 @@ module NoFB
         NoFB::Entity::Posts.new(
           posts: posts,
           size: posts.length,
-          post_list: posts.map(&:id),
+          post_list: posts.map(&:post_id),
           group_id: group_id
         )
       end
@@ -48,7 +48,7 @@ module NoFB
           NoFB::Entity::Post.new(
             updated_time: updated_time,
             message: message,
-            id: post_id,
+            post_id: post_id,
             user_id: user_id,
             group_id: group_id
           )
@@ -67,12 +67,10 @@ module NoFB
         end
 
         def user_id
-          nil
+          '100000130616092'
         end
 
-        def group_id
-          @group_id
-        end
+        attr_reader :group_id
       end
     end
   end

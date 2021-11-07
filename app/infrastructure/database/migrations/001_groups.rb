@@ -5,8 +5,7 @@ require 'sequel'
 Sequel.migration do
   change do
     create_table(:groups) do
-      primary_key :group_id
-
+      primary_key :id
       String      :group_id, unique: true, null: false
       String      :group_name, unique: true, null: false
 

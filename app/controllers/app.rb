@@ -19,8 +19,8 @@ module NoFB
 
       # GET /
       routing.root do
-        posts = Repository::For.klass(Entity::Posts).all
-        view 'home', locals: { posts: posts }
+        # posts = Repository::For.klass(Entity::Posts).all
+        view 'home'#, locals: { posts: posts }
       end
 
       routing.on 'group' do
@@ -34,11 +34,11 @@ module NoFB
 
             # routing.redirect "group/#{group_id}"
             # Get project from Github
-            group = FB::PostsMapper.new(App.config.FB_TOKEN)
+            posts = FB::PostsMapper.new(App.config.FB_TOKEN)
                                    .find(group_id)
 
             # Add project to database
-            Repository::For.entity(group).create(group)
+            Repository::For.entity(posts).create(posts)
 
             # Redirect viewer to project page
             routing.redirect "group/#{group_id}"

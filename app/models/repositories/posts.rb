@@ -11,16 +11,24 @@ module NoFB
       def self.rebuild_entity(db_records)
         return nil unless db_records
 
-        post_list = db_records.map do |db_record|
-          db_record.post_id
-        end
+        post_list = db_records.map(&:post_id)
 
         Entity::Posts.new(
-          posts:         Post.rebuild_many(db_records),
-          size:       db_records.length,
-          post_list:  post_list,
-          group_id:   db_records[0].group_id # all db_records.group_id should be the same
+          posts: Post.rebuild_many(db_records),
+          size: db_records.length,
+          post_list: post_list,
+          group_id: db_records[0].group_id # all db_records.group_id should be the same
         )
+      end
+
+      def self.find(entity)
+        find_origin_id(entity.origin_id)
+      end
+
+      def self.create(entity)
+        entity.posts.each do |post|
+          NoFB::Repository::Post.db_find_or_create(post)
+        end
       end
     end
   end
