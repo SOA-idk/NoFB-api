@@ -32,7 +32,7 @@ module NoFB
 
       def self.db_find_or_create(entity)
         user = Entity::User.new(
-          user_id: '123',
+          user_id: '100000130616092',
           user_email: 'abc@gmail.com',
           access_token: "Idon'tcare"
         )

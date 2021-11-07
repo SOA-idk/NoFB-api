@@ -21,6 +21,7 @@ module NoFB
       def self.find_or_create(member_info)
         GroupsOrm.strict_param_setting = false
         first(group_id: member_info[:group_id]) || create(member_info)
+        puts GroupsOrm[group_id: member_info[:group_id]]
       end
     end
   end

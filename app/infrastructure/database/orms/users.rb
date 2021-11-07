@@ -5,7 +5,7 @@ require 'sequel'
 module NoFB
   module Database
     # Object-Relational Mapper for Members
-    class UsersOrm < Sequel::Model(:groups)
+    class UsersOrm < Sequel::Model(:users)
       # a group could have many posts
       # one_to_many :owned_posts,
       #             class: :'NoFB::Database::PostsOrm',
@@ -20,12 +20,16 @@ module NoFB
 
       def self.find_or_create(member_info)
         UsersOrm.strict_param_setting = false
+        puts UsersOrm.columns
+        puts UsersOrm.dataset.all
         puts member_info
         puts member_info[:user_id]
         puts first(user_id: member_info[:user_id])
         puts create(member_info)
-
+        
         # first(user_id: member_info[:user_id]) || create(member_info)
+        puts UsersOrm.dataset.all
+        puts UsersOrm[user_id: member_info[:user_id]]
       end
     end
   end
