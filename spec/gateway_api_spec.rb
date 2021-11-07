@@ -53,7 +53,7 @@ describe 'Tests FB Group API' do
     end
     it 'HAPPY: should id' do
       @posts.posts.each_with_index.each { |post, idx|
-        _(post.id).must_equal CORRECT['data'][idx]['id']
+        _(post.post_id).must_equal CORRECT['data'][idx]['id']
       }
     end
   end
