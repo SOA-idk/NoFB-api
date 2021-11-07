@@ -19,35 +19,38 @@ module NoFB
       # :reek:FeatureEnvy
       def build_entities(project_data, group_id)
         project_data = project_data['data']
-        posts = build_posts(project_data)
+        posts = build_posts(project_data, group_id)
         NoFB::Entity::Posts.new(
           posts: posts,
           size: posts.length,
-          post_list: posts.map(&:id),
+          post_list: posts.map(&:post_id),
           group_id: group_id
         )
       end
 
       # :reek:UtilityFunction
-      def build_posts(project_data)
+      def build_posts(project_data, group_id)
         posts = []
         project_data.each do |data|
-          posts << DataMapper.new(data).build_entity
+          posts << DataMapper.new(data, group_id).build_entity
         end
         posts
       end
 
       # Extracts entity specific elements from data structure
       class DataMapper
-        def initialize(data)
+        def initialize(data, group_id)
           @data = data
+          @group_id = group_id
         end
 
         def build_entity
           NoFB::Entity::Post.new(
             updated_time: updated_time,
             message: message,
-            id: id
+            post_id: post_id,
+            user_id: user_id,
+            group_id: group_id
           )
         end
 
@@ -59,9 +62,15 @@ module NoFB
           @data['message']
         end
 
-        def id
+        def post_id
           @data['id']
         end
+
+        def user_id
+          '100000130616092'
+        end
+
+        attr_reader :group_id
       end
     end
   end

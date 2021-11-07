@@ -2,11 +2,35 @@
 
 require 'roda'
 require 'yaml'
+require 'figaro'
+require 'sequel'
 
 module NoFB
   # Configuration for the App
   class App < Roda
-    CONFIG = YAML.safe_load(File.read('config/secrets.yml'))
-    FB_TOKEN = CONFIG['FB_TOKEN']
+    plugin :environments
+
+    # rubocop:disable Lint/ConstantDefinitionInBlock
+    configure do
+      # Environment variables setup
+      Figaro.application = Figaro::Application.new(
+        environment: environment,
+        path: File.expand_path('config/secrets.yml')
+      )
+      Figaro.load
+      def self.config() = Figaro.env
+
+      configure :development, :test do
+        ENV['DATABASE_URL'] = "sqlite://#{config.DB_FILENAME}"
+      end
+
+      # Database Setup
+      DB = Sequel.connect(ENV['DATABASE_URL'])
+      # rubocop:disable Naming/MethodName
+      # :reek:UncommunicativeMethodName
+      def self.DB() = DB
+      # rubocop:enable Naming/MethodName
+    end
+    # rubocop:enable Lint/ConstantDefinitionInBlock
   end
 end
