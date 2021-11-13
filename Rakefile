@@ -1,7 +1,7 @@
 require 'rake/testtask'
 
 task :default do
-  puts 'rake -T'
+  puts `rake -T`
 end
 
 desc 'Run tests once'

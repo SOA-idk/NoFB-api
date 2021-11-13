@@ -1,18 +1,13 @@
 # NoFB
-The best word to describe us is **Good**.
-
-## Installation
-```bash=
-sudo apt-get install build-essential
-bundle install
-```
-When pushing to repo, remember to git add -u (in order to avoid Gemfile.lock).
+## Purpose
+The users could subscribe to specific words in a facebook group. When there are any posts related to specific words, NoFB would notify users by sending email to them.
+The best word to describe us is **Notification**.
 
 ## Resources
 - class Posts
 - class Post 
 
-## Element
+### Element
 - class Posts
   * @size = int
   * @posts = [Post, Post, ...]
@@ -22,26 +17,20 @@ When pushing to repo, remember to git add -u (in order to avoid Gemfile.lock).
   * @message
   * @id
 
-## Entities
-There are objects that are import  to the Facebook group.
+### Entities
+There are objects that are import to the Facebook group.
 * Posts
 
-## Result of simpleCov
-![](https://i.imgur.com/r7acmhR.png)
+## Installation
+```bash=
+bundle install
+```
+If you have not installed the gcc, please run this command before install.
+```bash=
+sudo apt-get install build-essential
+```
 
-## Result of rake
-QAQ finally
-![](https://i.imgur.com/VYJDtX6.png)
-
-## Result of rake(10/30)
-![](https://i.imgur.com/i72Boxc.png)
-
-**result of mvc**
-![](https://i.imgur.com/KT3KPeY.png)
-
-## Open the folder of wsl
-```explorer.exe .```
-
+## Command
 If you want to run the app:
 ```bash=
 rackup
@@ -90,10 +79,3 @@ rake db:drop
 | user_id | user_email | access_token |
 | ------- | ---------- | ------------ |
 | String  | String     | String       |
-
-
-## Result of rake (11/7)
-- quality:all
-![](https://i.imgur.com/Mu1vTvB.png)
-- spec
-![](https://i.imgur.com/AL3WXZp.png)
