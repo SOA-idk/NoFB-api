@@ -1,6 +1,14 @@
 h1 {
     font-weight: bold;
 }
+
+.avatar {
+    width: 100px;
+}
+
+.nav {
+    background-color: #e3f2fd;
+}
   
 .text-underline-hover {
     text-decoration: none;
