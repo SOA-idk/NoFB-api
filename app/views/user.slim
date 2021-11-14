@@ -16,49 +16,23 @@
             th scope="col" Subscribed words
             th scope="col" Action 
         tbody 
-          tr 
-            th scope="row" 1
-            td 583420078337624
-            td 肉桂捲
-            td 
-              .btn-group.pull-right
-                button {
+          - groups.each_with_index do |group, index|
+            tr
+              th scope="row" = index
+              td = group.group_id
+              td = group.word
+              td 
+                .btn-group.pull-right
+                  button {
                     id="bEdit" type="button" class="btn btn-sm btn-default"
-                }
-                  span.bi.bi-pencil-fill
-                button {
+                  }
+                    span.bi.bi-pencil-fill
+                  button {
                     id="bElim" type="button" class="btn btn-sm btn-default"
-                }
-                  span.bi.bi-trash
-          tr 
-            th scope="row" 2
-            td 583420078337624
-            td 肉桂捲
-            td 
-              .btn-group.pull-right
-                button {
-                    id="bEdit" type="button" class="btn btn-sm btn-default"
-                }
-                  span.bi.bi-pencil-fill
-                button {
-                    id="bElim" type="button" class="btn btn-sm btn-default"
-                }
-                  span.bi.bi-trash
-          tr 
-            th scope="row" 3
-            td 583420078337624
-            td 肉桂捲
-            td 
-              .btn-group.pull-right
-                button {
-                    id="bEdit" type="button" class="btn btn-sm btn-default"
-                }
-                  span.bi.bi-pencil-fill
-                button {
-                    id="bElim" type="button" class="btn btn-sm btn-default"
-                }
-                  span.bi.bi-trash
-      form role="form" action="/add" method='POST' id='show-group-form'
+                  }
+                    span.bi.bi-trash
+          
+      form role="form" action="/add" method='GET' id='show-group-form'
         button {
           class="btn btn-primary" id="add" type="submit"
         } 

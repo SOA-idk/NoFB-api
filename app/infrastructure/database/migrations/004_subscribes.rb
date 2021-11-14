@@ -9,7 +9,7 @@ Sequel.migration do
       foreign_key :group_id, :groups
       String      :word
 
-      primary_key %i[user_id group_id]
+      primary_key [:user_id, :group_id]
     end
   end
 end
