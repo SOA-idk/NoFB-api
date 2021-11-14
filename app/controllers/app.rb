@@ -15,7 +15,7 @@ module NoFB
     # rubocop:disable Metrics/BlockLength
     route do |routing|
       routing.assets # load CSS
-      routing.public
+      routing.public # make GET public/images/
 
       # GET /
       routing.root do
@@ -25,7 +25,7 @@ module NoFB
 
       routing.on 'group' do
         routing.is do
-          # POST /project/
+          # POST /group/
           routing.post do
             fb_url = routing.params['fb_url'].downcase
             routing.halt 400 unless (fb_url.include? 'facebook.com') &&
@@ -59,6 +59,14 @@ module NoFB
             view 'posts', locals: { posts: posts }
           end
         end
+      end
+
+      routing.on 'user' do
+        view 'user'
+      end
+
+      routing.on 'add' do
+        view 'add'
       end
     end
     # rubocop:enable Metrics/BlockLength
