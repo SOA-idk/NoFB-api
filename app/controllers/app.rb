@@ -15,34 +15,61 @@ module NoFB
     # rubocop:disable Metrics/BlockLength
     route do |routing|
       routing.assets # load CSS
-      routing.public
+      routing.public # make GET public/images/
 
       # GET /
       routing.root do
         # posts = Repository::For.klass(Entity::Posts).all
+        Database::UsersOrm.find_or_create(user_id: '123', 
+                                          user_email: '4534@gmail.com',
+                                          access_token: '242234')
+
+        Database::GroupsOrm.find_or_create(group_id: '4534',
+                                          group_name: 'lalalala')
+
+        Database::GroupsOrm.find_or_create(group_id: '8787',
+                                          group_name: 'Idiot')
+
+        Database::SubscribesOrm.create(user_id: '123', 
+                                      group_id: '4534',
+                                      word: 'cookies, sell')
+        
+        Database::SubscribesOrm.create(user_id: '123', 
+                                      group_id: '8787',
+                                      word: 'Bread')
+
         view 'home' # , locals: { posts: posts }
       end
 
-      routing.on 'group' do
+      routing.on 'add' do
         routing.is do
-          # POST /project/
+          routing.get do
+            view 'add'
+          end
+          # POST /add/
           routing.post do
             fb_url = routing.params['fb_url'].downcase
             routing.halt 400 unless (fb_url.include? 'facebook.com') &&
                                     (fb_url.split('/').count >= 5)
             group_id = fb_url.split('/')[-1..][0].strip
+            subscribed_word = routing.params['subscribed_word']
 
             puts "group / groupId: #{group_id}"
-            # routing.redirect "group/#{group_id}"
-            # Get project from Github
-            posts = FB::PostsMapper.new(App.config.FB_TOKEN)
-                                   .find(group_id)
-
-            # Add project to database
-            Repository::For.entity(posts).create(posts)
+            puts "subscribed_word: #{subscribed_word}"
+            # routing.redirect "add/#{group_id}"
+            # TODO, false detection
+            # Check if it's in database
+            if Repository::Subscribes.find_id('123', group_id).nil?
+              puts "add new records"
+              Database::GroupsOrm.find_or_create(group_id: group_id,
+                                              group_name: 'Test1')
+              Database::SubscribesOrm.create(group_id: group_id,
+                                             word: subscribed_word,
+                                             user_id: '123')
+            end
 
             # Redirect viewer to project page
-            routing.redirect "group/#{group_id}"
+            routing.redirect "user"
           end
         end
 
@@ -59,6 +86,12 @@ module NoFB
             view 'posts', locals: { posts: posts }
           end
         end
+      end
+
+      routing.on 'user' do            
+        groups = Repository::For.klass(Entity::Subscribes)
+                               .find_all('123')
+        view 'user', locals: {groups: groups}
       end
     end
     # rubocop:enable Metrics/BlockLength

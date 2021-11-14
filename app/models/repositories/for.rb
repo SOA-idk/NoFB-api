@@ -2,6 +2,7 @@
 
 require_relative 'post'
 require_relative 'posts'
+require_relative 'subscribes'
 
 module NoFB
   module Repository
@@ -9,7 +10,8 @@ module NoFB
     module For
       ENTITY_REPOSITORY = {
         Entity::Post => Post,
-        Entity::Posts => Posts
+        Entity::Posts => Posts,
+        Entity::Subscribes => Subscribes
       }.freeze
 
       def self.klass(entity_klass)
