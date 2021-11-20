@@ -23,7 +23,7 @@ module NoFB
       end
 
       routing.on 'init' do
-        posts = Repository::For.klass(Entity::Posts).all
+        # posts = Repository::For.klass(Entity::Posts).all
         Database::UsersOrm.find_or_create(user_id: '123', 
                                           user_email: '4534@gmail.com',
                                           user_name: '242234',
