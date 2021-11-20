@@ -19,27 +19,30 @@ module NoFB
 
       # GET /
       routing.root do
-        # posts = Repository::For.klass(Entity::Posts).all
-        # Database::UsersOrm.find_or_create(user_id: '123', 
-        #                                   user_email: '4534@gmail.com',
-        #                                   user_name: '242234',
-        #                                   user_img: 'img test')
-
-        # Database::GroupsOrm.find_or_create(group_id: '4534',
-        #                                   group_name: 'lalalala')
-
-        # Database::GroupsOrm.find_or_create(group_id: '8787',
-        #                                   group_name: 'Idiot')
-
-        # Database::SubscribesOrm.create(user_id: '123', 
-        #                               group_id: '4534',
-        #                               word: 'cookies, sell')
-        
-        # Database::SubscribesOrm.create(user_id: '123', 
-        #                               group_id: '8787',
-        #                               word: 'Bread')
-
         view 'home' # , locals: { posts: posts }
+      end
+
+      routing.on 'init' do
+        posts = Repository::For.klass(Entity::Posts).all
+        Database::UsersOrm.find_or_create(user_id: '123', 
+                                          user_email: '4534@gmail.com',
+                                          user_name: '242234',
+                                          user_img: 'img test')
+
+        Database::GroupsOrm.find_or_create(group_id: '4534',
+                                          group_name: 'lalalala')
+
+        Database::GroupsOrm.find_or_create(group_id: '8787',
+                                          group_name: 'Idiot')
+
+        Database::SubscribesOrm.create(user_id: '123', 
+                                      group_id: '4534',
+                                      word: 'cookies, sell')
+        
+        Database::SubscribesOrm.create(user_id: '123', 
+                                      group_id: '8787',
+                                      word: 'Bread')
+        view 'home'
       end
 
       routing.on 'add' do
