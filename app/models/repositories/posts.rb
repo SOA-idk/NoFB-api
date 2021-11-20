@@ -8,8 +8,8 @@ module NoFB
         rebuild_entity Database::PostsOrm.all
       end
 
-      def self.find_user_id_group_id(user_id, group_id)
-        rebuild_entity Database::PostsOrm.where(user_id: user_id, group_id: group_id)
+      def self.find_user_name_group_id(user_name, group_id)
+        rebuild_entity Database::PostsOrm.where(user_name: user_name, group_id: group_id)
       end
 
       def self.rebuild_entity(db_records)

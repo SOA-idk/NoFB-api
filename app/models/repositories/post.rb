@@ -19,7 +19,7 @@ module NoFB
           post_id: db_record.post_id.to_s,
           updated_time: db_record.updated_time,
           message: db_record.message,
-          user_id: db_record.user_id.to_s,
+          user_email: db_record.user_email.to_s,
           group_id: db_record.group_id.to_s
         )
       end
