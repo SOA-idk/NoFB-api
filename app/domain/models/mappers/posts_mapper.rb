@@ -49,7 +49,7 @@ module NoFB
             updated_time: updated_time,
             message: message,
             post_id: post_id,
-            user_id: user_id,
+            user_name: user_name,
             group_id: group_id
           )
         end

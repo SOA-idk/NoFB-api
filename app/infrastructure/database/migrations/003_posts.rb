@@ -6,10 +6,10 @@ Sequel.migration do
   change do
     create_table(:posts) do
       String :post_id, unique: true # , null: false
-      foreign_key :group_id, :groups, type:String
+      foreign_key :group_id, :groups, type: String
       String :user_name
 
-      String      :message
+      String :message
 
       String :updated_time
 
