@@ -1,0 +1,56 @@
+.container 
+  .row 
+    .col-lg-4
+    .col-lg-4
+      .text-cetner
+        img.img-fluid.rounded-circle.avatar.mx-auto.d-block src="/images/woman.png"
+        input.mt-2.mb-5.form-control type="text" value = groups.user_id 
+    .col-lg-4
+  .row.justify-content-md-center
+    .col-lg-8.text-center
+      table.table
+        thead 
+          tr
+            th scope="col" #
+            th scope="col" GroupId 
+            th scope="col" Subscribed words
+            th scope="col" Action 
+        tbody 
+          - groups.each do |group|
+            tr
+              th scope="row" = group.index
+              td = group.group_id
+              td = group.word
+              td 
+                .btn-group.pull-right
+                  form role="form" method="post" action = group.full_path
+                    button {
+                      id="bEdit" type="submit" class="btn btn-sm btn-default"
+                      value="get" name="_method"
+                    }
+                      span.bi.bi-pencil-fill
+                    / data-bs-toggle='model' data-bs-target='#model-confirm'
+                    button {
+                      id="bElim" type="submit" class="btn btn-sm btn-default"
+                      value="delete" name="_method"
+                    }
+                      span.bi.bi-trash
+                    / div class="modal fade" id="model-confirm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+                      div class="modal-dialog"
+                        div class="modal-content"
+                          div class="modal-header"
+                            h5 class="modal-title" id="exampleModalLabel" Modal title
+                            button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                          div class="modal-body"
+                            Test
+                          div class="modal-footer"
+                            button type="button" class="btn btn-secondary" data-bs-dismiss="modal" Close
+                            button type="button" class="btn btn-primary" Save changes
+          
+      form role="form" action="/add" method='GET' id='show-group-form'
+        button {
+          class="btn btn-primary" id="add" type="submit"
+        } 
+          span.bi.bi-plus-circle-fill Add New word
+          
+

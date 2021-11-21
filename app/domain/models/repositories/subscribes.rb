@@ -35,12 +35,13 @@ module NoFB
       # :reek:NilCheck
       def self.db_update_or_create(entity)
         existing = find_id(entity.user_id, entity.group_id)
-
         if existing.nil?
           Database::SubscribesOrm.create(entity)
         else
-          existing.word = entity.word
-          Database::SubscribesOrm.update(existing)
+          # update word
+          update_info = Entity::Subscribes.new(user_id: existing.user_id.to_s, word: entity.word,
+                                               group_id: existing.group_id.to_s)
+          Database::SubscribesOrm.update(update_info)
         end
       end
     end

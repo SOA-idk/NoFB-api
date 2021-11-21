@@ -7,7 +7,8 @@ Sequel.migration do
     create_table(:users) do
       String      :user_id, unique: true # , null: false
       String      :user_email
-      String      :access_token
+      String      :user_name
+      String      :user_img
 
       primary_key [:user_id]
     end

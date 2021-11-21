@@ -19,7 +19,7 @@ module NoFB
           post_id: db_record.post_id.to_s,
           updated_time: db_record.updated_time,
           message: db_record.message,
-          user_id: db_record.user_id.to_s,
+          user_email: db_record.user_email.to_s,
           group_id: db_record.group_id.to_s
         )
       end
@@ -46,12 +46,12 @@ module NoFB
         #   access_token: "Idontcare"
         # )
         Database::UsersOrm.find_or_create(user_id: '100000130616092',
-                                          user_email: 'abc@gmail.com', access_token: 'Idontcare')
+                                          user_email: 'abc@gmail.com', user_name: 'Idontcare')
 
         Database::PostsOrm.find_or_create(post_id: entity.post_id,
                                           updated_time: entity.updated_time,
                                           message: entity.message,
-                                          user_id: entity.user_id,
+                                          user_name: entity.user_name,
                                           group_id: group_id)
       end
     end

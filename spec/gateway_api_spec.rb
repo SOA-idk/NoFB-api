@@ -16,7 +16,6 @@ describe 'Tests FB Group API' do
       # puts CORRECT['data'].map { |x| x['id'] }
       # posts = NoFB::FBApi.new(ACCESS_TOKEN).posts(GROUP_ID)
       posts = NoFB::FB::PostsMapper.new(ACCESS_TOKEN).find(GROUP_ID)
-  
       _(posts.size).must_equal CORRECT['data'].length()
       _(posts.post_list).must_equal CORRECT['data'].map { |x| x['id'] }
     end

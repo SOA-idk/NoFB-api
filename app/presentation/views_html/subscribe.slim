@@ -1,0 +1,39 @@
+.container
+  form role="form" method='POST' id='show-group-form'
+    .row.vertical-align
+      .col-md-2.col-sm-3
+        .text-right Group URL:
+      .col-md-8.col-sm-6
+        input { 
+          type='text' name='fb_url'
+          id='fb_url_input' class="form-control"
+          placeholder="e.g. https://www.facebook.com/groups/302165911402681"
+          - if subscirbes
+            value = subscribes.group_url
+        }
+    /   .col-md-2.col-sm-3
+    .row
+      .col-md-12.blank-row
+    .row.vertical-align
+      .col-md-2.col-sm-3
+        .text-right Subscribed words:
+      .col-md-8.col-sm-6
+        input { 
+          type='text' name='subscribed_word'
+          id='subscribed_word' class="form-control"
+          placeholder="e.g. 肉桂捲, Cinnamon rolls"
+          - if subscirbes
+            value = subscribes.word
+        }
+    .row
+      .col-md-12.blank-row
+    .row
+      .col-md-4.blank-row
+      .col-md-4.text-center
+        
+        button { 
+          type='submit' id='post-form-submit'
+          class="btn btn-success" 
+          value="patch" name="_method"
+        } UPDATE
+      .col-md-4.blank-row

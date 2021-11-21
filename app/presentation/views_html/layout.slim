@@ -15,6 +15,7 @@ html
     / Custom CSS
     / link rel='stylesheet' href='/presentation/assets/css/style.css'
     == assets(:css)
+    == assets(:js, defer: true)
   body
     / Popper
     script{ 
@@ -46,6 +47,7 @@ html
             /   a.text-underline-hover href="/" NoFB
 
       section
+        include :flash_bar
         == yield
 
       footer
