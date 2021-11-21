@@ -66,7 +66,7 @@ module NoFB
           @data['id']
         end
 
-        def user_id
+        def user_name
           '100000130616092'
         end
 
