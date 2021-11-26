@@ -7,10 +7,6 @@ ruby File.read('.ruby-version').strip
 gem 'figaro', '~> 1.2'
 gem 'rake'
 
-# Domain Value
-gem 'watir', '~> 7.0'
-gem 'webdrivers', '~> 5.0'
-
 # Web Application
 gem 'puma', '~> 5.5'
 gem 'roda', '~> 3.49'

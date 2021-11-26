@@ -10,10 +10,14 @@ module NoFB
     class WebCrawler
       attr_reader :browser, :content
 
-      def initialize
-        @browser = Watir::Browser.new :chrome
+      def initialize(headless: true)
+        @browser = if headless
+                     Watir::Browser.new :chrome, headless: true
+                   else
+                     Watir::Browser.new :chrome
+                   end
         @content = CrawlerContent.new('302165911402681')
-        # , options: {prefs: {'intl' => {'accept_languages' => 'en'}}} # , headless: true
+        # , options: {prefs: {'intl' => {'accept_languages' => 'en'}}}
       end
 
       def login
@@ -40,6 +44,7 @@ module NoFB
       end
 
       def crawl
+        browser.refresh
         content.save_crawl(
           GetPosts.get_group_name(browser),
           GetPosts.get_post_ids(browser),
