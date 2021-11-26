@@ -31,7 +31,7 @@ module NoFB
 
       def self.create(entity)
         entity.posts.each do |post|
-          NoFB::Repository::Post.db_find_or_create(post)
+          NoFB::Repository::Post.db_find_or_create(post, group_name)
         end
       end
     end

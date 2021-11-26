@@ -55,3 +55,8 @@ end
 group :production do
   gem 'pg'
 end
+
+# Domain Value
+gem 'watir', '~> 7.0'
+gem 'webdrivers', '~> 5.0', require: false
+gem 'date'

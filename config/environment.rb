@@ -24,6 +24,9 @@ module NoFB
         ENV['DATABASE_URL'] = "sqlite://#{config.DB_FILENAME}"
       end
 
+      ENV['FB_USERNAME'] = config.FB_USERNAME
+      ENV['FB_PASSWORD'] = config.FB_PASSWORD
+      
       # Database Setup
       DB = Sequel.connect(ENV['DATABASE_URL'])
       # rubocop:disable Naming/MethodName
