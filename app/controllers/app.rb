@@ -20,7 +20,9 @@ module NoFB
 
     # run in background
     crawler = Value::WebCrawler.new # (headless: true)
-    crawler.login
+    
+
+    # crawler.login
 
     # rubocop:disable Metrics/BlockLength
     route do |routing|
@@ -55,12 +57,16 @@ module NoFB
         view 'home'
       end
 
+      routing.on 'testDriver' do
+        crawler.test
+        view 'home'
+      end
+
       routing.on 'updateDB' do
         crawler.crawl
         puts crawler.construct_query
         crawler.insert_db
         # puts Database::PostsOrm.all
-        # x8 8x x8 8 x8x x8 x8 x8 x8 x8 
         view 'home'
       end
 

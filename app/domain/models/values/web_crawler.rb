@@ -11,6 +11,8 @@ module NoFB
       attr_reader :browser, :content
 
       def initialize(headless: true)
+        Webdrivers.logger.level = :debug
+        Watir.logger.level = :debug
         @browser = if headless
                      Watir::Browser.new :chrome, headless: true
                    else
@@ -18,6 +20,13 @@ module NoFB
                    end
         @content = CrawlerContent.new('302165911402681')
         # , options: {prefs: {'intl' => {'accept_languages' => 'en'}}}
+      end
+
+      def test
+        puts 'opened Browser'
+        browser.goto('www.google.com')
+        puts 'goto-ed site'
+        browser.driver.save_screenshot('screenshot.png')
       end
 
       def login
