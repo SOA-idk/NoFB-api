@@ -22,8 +22,6 @@ module NoFB
     crawler = Value::WebCrawler.new # (headless: true)
     
 
-    # crawler.login
-
     # rubocop:disable Metrics/BlockLength
     route do |routing|
       routing.assets # load CSS, JS
@@ -54,6 +52,11 @@ module NoFB
         Database::SubscribesOrm.create(user_id: '123',
                                        group_id: '8787',
                                        word: 'Bread')
+        view 'home'
+      end
+
+      routing.on 'testLogin' do
+        crawler.login
         view 'home'
       end
 
