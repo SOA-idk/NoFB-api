@@ -124,8 +124,9 @@ module NoFB
             routing.redirect 'user'
           end
         end
+      end
 
-        # current path does not exist
+      routing.on 'group' do
         routing.on String do |group_id|
           puts "fb_token: #{App.config.FB_TOKEN}"
           puts "last / group_id: #{group_id}\n"
@@ -134,7 +135,7 @@ module NoFB
             # Get project from database
             puts "rebuild / group_id: #{group_id}\n"
             posts = Repository::For.klass(Entity::Posts)
-                                   .find_user_id_group_id('100000130616092', group_id.to_s)
+                                  .find_group_id(group_id.to_s)
 
             view 'posts', locals: { posts: posts }
           end

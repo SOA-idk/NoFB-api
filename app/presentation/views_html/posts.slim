@@ -1,15 +1,17 @@
 .container
   .row
     h2
-      span.posts.group_id
+      span.posts.group_name
+        = posts.group_name
+      span.posts.group_id style="padding-left:20px"
         = posts.group_id
-      span.posts.size style="padding-left:20px"
-        = posts.size
   .container
     .row
       .col-lg-1.col-md-2.col-sm-2
         span.posts.attribute List:
       .col-lg-11.col-md-10.col-sm-6
+        span.posts.detail
+          = "(#{posts.size}) "
         span.posts.detail
           = posts.post_list
     .row.top-buffer
@@ -18,9 +20,15 @@
       .col-lg-11.col-md-10.col-sm-6
         .row
           - posts.posts.each do |post|
-            .col-sm-6
+            .col-sm-3
+              p.posts.detail 
+               = post.post_id
+            .col-sm-3
+              p.posts.detail 
+               = post.user_name
+            .col-sm-3
               p.posts.detail 
                = post.message
-            .col-sm-6
+            .col-sm-3
               p.posts.detail 
                = post.updated_time

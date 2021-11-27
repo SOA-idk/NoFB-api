@@ -15,6 +15,7 @@ module NoFB
       attribute :size, Strict::Integer
       attribute :post_list, Strict::Array.of(String)
       attribute :group_id, Strict::String
+      attribute :group_name, Strict::String
     end
   end
 end

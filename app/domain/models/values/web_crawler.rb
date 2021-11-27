@@ -40,7 +40,7 @@ module NoFB
 
       def wait_home_ready
         browser.driver.save_screenshot('./app/presentation/public/images/screenshot0.png')
-        Watir::Wait.until do
+        Watir::Wait.until(timeout: 5) do
           browser.svg(class: 'fzdkajry').present?
         end
         browser.driver.save_screenshot('./app/presentation/public/images/screenshot1.png')
@@ -56,7 +56,7 @@ module NoFB
 
       def wait_page_ready
         browser.driver.save_screenshot('./app/presentation/public/images/screenshot2.png')
-        Watir::Wait.until do
+        Watir::Wait.until(timeout: 5) do
           browser.h1.present?
         end
         browser.driver.save_screenshot('./app/presentation/public/images/screenshot3.png')
