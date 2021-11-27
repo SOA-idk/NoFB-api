@@ -19,6 +19,9 @@ gem 'slim', '~> 4.1'
 # Validation
 gem 'dry-struct', '~> 1.4'
 gem 'dry-types', '~> 1.5'
+gem 'dry-monads', '~> 1.4'
+gem 'dry-transaction', '~> 0.13'
+gem 'dry-validation', '~> 1.7'
 
 # Networking
 gem 'http', '~> 5.0'
