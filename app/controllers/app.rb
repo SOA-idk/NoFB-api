@@ -74,6 +74,11 @@ module NoFB
         view 'show_browser'
       end
 
+      routing.on 'goto_group_page_anyway' do
+        crawler.goto_group_page_anyway
+        view 'show_browser'
+      end
+
       routing.on 'updateDB' do
         crawler.crawl
         puts crawler.construct_query
