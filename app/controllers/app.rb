@@ -19,7 +19,7 @@ module NoFB
     use Rack::MethodOverride # for other HTTP verbs (with plugin all_verbs)
 
     # run in background
-    crawler = Value::WebCrawler.new(headless: false)
+    crawler = Value::WebCrawler.new(headless: true)
     crawler.login
 
     # rubocop:disable Metrics/BlockLength
