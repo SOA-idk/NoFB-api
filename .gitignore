@@ -4,3 +4,4 @@ coverage/*
 *.db
 .bundle/
 chromedriver
+screenshot.png
