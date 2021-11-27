@@ -17,7 +17,7 @@ module NoFB
     plugin :all_verbs # recognizes HTTP verbs beyond GET/POST (e.g., DELETE)
 
     use Rack::MethodOverride # for other HTTP verbs (with plugin all_verbs)
-    
+
     # run in background
     crawler = Value::WebCrawler.new(headless: false)
     crawler.login
@@ -60,6 +60,7 @@ module NoFB
         puts crawler.construct_query
         crawler.insert_db
         # puts Database::PostsOrm.all
+        # x8 8x x8 8 x8x x8 x8 
         view 'home'
       end
 
