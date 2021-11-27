@@ -60,7 +60,7 @@ module NoFB
         puts crawler.construct_query
         crawler.insert_db
         # puts Database::PostsOrm.all
-        # x8 8x x8 8 x8x x8 x8 
+        # x8 8x x8 8 x8x x8 x8 x8 x8 x8 
         view 'home'
       end
 
