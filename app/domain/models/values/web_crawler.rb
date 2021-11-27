@@ -34,11 +34,12 @@ module NoFB
         browser.driver.save_screenshot('./app/presentation/public/images/screenshot.png')
         browser.text_field(id: 'email').set(ENV['FB_USERNAME'])
         browser.text_field(id: 'pass').set(ENV['FB_PASSWORD'])
+        browser.driver.save_screenshot('./app/presentation/public/images/screenshot.png')
         browser.button(id: 'loginbutton').click
-        wait_home_ready
       end
 
       def wait_home_ready
+        browser.driver.save_screenshot('./app/presentation/public/images/screenshot.png')
         Watir::Wait.until do
           browser.svg(class: 'fzdkajry').present?
         end

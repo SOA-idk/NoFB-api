@@ -60,6 +60,11 @@ module NoFB
         view 'home'
       end
 
+      routing.on 'testWait' do
+        crawler.wait_home_ready
+        view 'home'
+      end
+
       routing.on 'testDriver' do
         crawler.test
         view 'home'
