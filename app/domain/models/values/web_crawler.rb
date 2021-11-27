@@ -26,31 +26,34 @@ module NoFB
         puts 'opened Browser'
         browser.goto('www.google.com')
         puts 'goto-ed site'
-        browser.driver.save_screenshot('./app/presentation/public/images/screenshot.png')
+        browser.driver.save_screenshot('./app/presentation/public/images/screenshot0.png')
       end
 
       def login
         browser.goto 'https://www.facebook.com/login'
-        browser.driver.save_screenshot('./app/presentation/public/images/screenshot.png')
+        browser.driver.save_screenshot('./app/presentation/public/images/screenshot0.png')
         browser.text_field(id: 'email').set(ENV['FB_USERNAME'])
         browser.text_field(id: 'pass').set(ENV['FB_PASSWORD'])
-        browser.driver.save_screenshot('./app/presentation/public/images/screenshot.png')
+        browser.driver.save_screenshot('./app/presentation/public/images/screenshot1.png')
         browser.button(id: 'loginbutton').click
       end
 
       def wait_home_ready
-        browser.driver.save_screenshot('./app/presentation/public/images/screenshot.png')
+        browser.driver.save_screenshot('./app/presentation/public/images/screenshot0.png')
         Watir::Wait.until do
           browser.svg(class: 'fzdkajry').present?
         end
+        browser.driver.save_screenshot('./app/presentation/public/images/screenshot1.png')
         browser.goto "https://mbasic.facebook.com/groups/#{content.group_id}"
         wait_page_ready
       end
 
       def wait_page_ready
+        browser.driver.save_screenshot('./app/presentation/public/images/screenshot2.png')
         Watir::Wait.until do
           browser.h1.present?
         end
+        browser.driver.save_screenshot('./app/presentation/public/images/screenshot3.png')
         puts 'group page ready'
       end
 

@@ -57,17 +57,17 @@ module NoFB
 
       routing.on 'testLogin' do
         crawler.login
-        view 'home'
+        view 'show_browser'
       end
 
       routing.on 'testWait' do
         crawler.wait_home_ready
-        view 'home'
+        view 'show_browser'
       end
 
       routing.on 'testDriver' do
         crawler.test
-        view 'home'
+        view 'show_browser'
       end
 
       routing.on 'updateDB' do
@@ -75,7 +75,7 @@ module NoFB
         puts crawler.construct_query
         crawler.insert_db
         # puts Database::PostsOrm.all
-        view 'home'
+        view 'show_browser'
       end
 
       routing.on 'add' do
