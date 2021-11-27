@@ -26,12 +26,12 @@ module NoFB
         puts 'opened Browser'
         browser.goto('www.google.com')
         puts 'goto-ed site'
-        browser.driver.save_screenshot('/app/presentation/public/images/screenshot.png')
+        browser.driver.save_screenshot('./app/presentation/public/images/screenshot.png')
       end
 
       def login
         browser.goto 'https://www.facebook.com/login'
-        browser.driver.save_screenshot('/app/presentation/public/images/screenshot.png')
+        browser.driver.save_screenshot('./app/presentation/public/images/screenshot.png')
         browser.text_field(id: 'email').set(ENV['FB_USERNAME'])
         browser.text_field(id: 'pass').set(ENV['FB_PASSWORD'])
         browser.button(id: 'loginbutton').click
