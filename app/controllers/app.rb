@@ -70,6 +70,10 @@ module NoFB
         view 'show_browser'
       end
 
+      routing.on 'showBrowser' do
+        view 'show_browser'
+      end
+
       routing.on 'updateDB' do
         crawler.crawl
         puts crawler.construct_query

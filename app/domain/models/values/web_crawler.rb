@@ -48,6 +48,12 @@ module NoFB
         wait_page_ready
       end
 
+      def goto_group_page_anyway
+        browser.goto "https://mbasic.facebook.com/groups/#{content.group_id}"
+        browser.driver.save_screenshot('./app/presentation/public/images/screenshot0.png')
+        wait_page_ready
+      end
+
       def wait_page_ready
         browser.driver.save_screenshot('./app/presentation/public/images/screenshot2.png')
         Watir::Wait.until do
