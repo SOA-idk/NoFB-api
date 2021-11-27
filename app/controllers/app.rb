@@ -20,7 +20,7 @@ module NoFB
 
     # run in background
     crawler = Value::WebCrawler.new # (headless: true)
-    
+
 
     # rubocop:disable Metrics/BlockLength
     route do |routing|
