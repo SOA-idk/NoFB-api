@@ -18,6 +18,10 @@ module NoFB
 
     use Rack::MethodOverride # for other HTTP verbs (with plugin all_verbs)
 
+    # run in background
+    crawler = Value::WebCrawler.new # (headless: true)
+
+
     # rubocop:disable Metrics/BlockLength
     route do |routing|
       routing.assets # load CSS, JS
@@ -32,7 +36,7 @@ module NoFB
       routing.on 'init' do
         # posts = Repository::For.klass(Entity::Posts).all
         Database::UsersOrm.find_or_create(user_id: '123',
-                                          user_email: '4534@gmail.com',
+                                          user_email: 'hhoracehsu@@gmail.com',
                                           user_name: '242234',
                                           user_img: 'img test')
 
@@ -51,6 +55,42 @@ module NoFB
         view 'home'
       end
 
+      routing.on 'testLogin' do
+        crawler.login
+        view 'show_browser'
+      end
+
+      routing.on 'testWait' do
+        crawler.wait_home_ready
+        view 'show_browser'
+      end
+
+      routing.on 'testDriver' do
+        crawler.test
+        view 'show_browser'
+      end
+
+      routing.on 'showBrowser' do
+        view 'show_browser'
+      end
+
+      routing.on 'goto_group_page_anyway' do
+        crawler.goto_group_page_anyway
+        view 'show_browser'
+      end
+
+      routing.on 'updateDB' do
+        crawler.crawl
+        puts crawler.construct_query
+        crawler.insert_db
+        # puts Database::PostsOrm.all
+        view 'show_browser'
+      end
+
+      routing.on 'testMail' do
+        Value::SendEmail.send_simple_message
+      end
+
       routing.on 'add' do
         routing.is do
           # GET /add/
@@ -59,37 +99,25 @@ module NoFB
           end
           # POST /add/
           routing.post do
-            fb_url = routing.params['fb_url'].downcase
-            routing.halt 400 unless (fb_url.include? 'facebook.com') &&
-                                    (fb_url.split('/').count >= 5)
-            group_id = fb_url.split('/')[-1..][0].strip
-            subscribed_word = routing.params['subscribed_word']
+            # user_id = '123'
+            url_request = Forms::NewSubscription.new.call(routing.params)
+            subscription_made = Service::AddSubscriptions.new.call(url_request)
 
-            # Check if group is in database
-            begin
-              user_id = '123'
-              if Repository::Subscribes.find_id(user_id, group_id).nil?
-                Database::GroupsOrm.find_or_create(group_id: group_id,
-                                                   group_name: 'Test1')
-                Database::SubscribesOrm.create(group_id: group_id,
-                                               word: subscribed_word,
-                                               user_id: user_id)
-              else # group already exist
-                flash[:error] = 'You already subscribe to this group, go to edit it.'
-                routing.redirect 'user'
-              end
-            rescue StandardError
-              flash[:error] = 'Having trouble accessing Database.'
-              routing.redirect '/'
+            if subscription_made.failure?
+              flash[:error] = subscription_made.failure
+              routing.redirect 'user'
             end
 
-            session[:watching].insert(0, "#{user_id}/#{group_id}").uniq!
-            # Redirect viewer to project page
+            sub = subscription_made.value!
+            session[:watching].insert(0, "#{sub.user_id}/#{sub.group_id}").uniq!
+            flash[:notice] = 'Successfully subscribe to specific word(s).'
+
             routing.redirect 'user'
           end
         end
+      end
 
-        # current path does not exist
+      routing.on 'group' do
         routing.on String do |group_id|
           puts "fb_token: #{App.config.FB_TOKEN}"
           puts "last / group_id: #{group_id}\n"
@@ -98,7 +126,7 @@ module NoFB
             # Get project from database
             puts "rebuild / group_id: #{group_id}\n"
             posts = Repository::For.klass(Entity::Posts)
-                                   .find_user_id_group_id('100000130616092', group_id.to_s)
+                                   .find_group_id(group_id.to_s)
 
             view 'posts', locals: { posts: posts }
           end
@@ -124,17 +152,17 @@ module NoFB
         routing.on String do |group_id|
           routing.delete do
             user_id = '123'
-            begin
-              query = Database::SubscribesOrm[group_id: group_id, user_id: user_id]
-              unless query.nil?
-                query.delete
+            delete_sub = Service::DeleteSubscriptions.new.call(group_id: group_id, user_id: user_id)
 
-                session[:watching].delete("#{user_id}/#{group_id}")
-                flash[:notice] = 'Successfully unsubscribe !'
-              end
-            rescue StandardError
+            if delete_sub.failure?
               flash[:error] = 'Having trouble accessing Database'
+              routing.redirect '/user'
             end
+
+            delete_path = delete_sub.value!
+            session[:watching].delete(delete_path)
+            flash[:notice] = 'Successfully unsubscribe !'
+
             routing.redirect '/user'
           end
 
@@ -150,17 +178,15 @@ module NoFB
           # UPDATE /user/groupId
           routing.patch do
             user_id = '123'
-            subscribed_word = routing.params['subscribed_word']
-            begin
-              sub = Entity::Subscribes.new(user_id: user_id,
-                                           group_id: group_id,
-                                           word: subscribed_word)
-              Repository::For.klass(Entity::Subscribes)
-                             .db_update_or_create(sub)
+            update_request = Forms::UpdateSubscription.new.call(routing.params)
+            update_made = Service::UpdateSubscription.new.call(user_id: user_id,
+                                                               group_id: group_id,
+                                                               word: update_request[:subscribed_word])
 
-              flash[:notice] = 'Successfully update subscribed words !'
-            rescue StandardError
+            if update_made.failure?
               flash[:error] = "Can't update the subscribed word!"
+            else
+              flash[:notice] = 'Successfully update subscribed words !'
             end
 
             routing.redirect '/user'

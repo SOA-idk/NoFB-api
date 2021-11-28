@@ -1,8 +1,8 @@
 # frozen_string_literal: false
 
-require_relative 'spec_helper'
-require_relative 'helpers/vcr_helper'
-require_relative 'helpers/database_helper'
+require_relative '../../../helpers/spec_helper'
+require_relative '../../../helpers/vcr_helper'
+require_relative '../../../helpers/database_helper'
 
 describe 'Integration Tests of Github API and Database' do
   VcrHelper.setup_vcr
@@ -20,7 +20,7 @@ describe 'Integration Tests of Github API and Database' do
       DatabaseHelper.wipe_database
     end
 
-    it 'HAPPY: should be able to save posts from Github to database' do
+    it 'HAPPY: should be able to save posts from FB group to database' do
       posts = NoFB::FB::PostsMapper.new(ACCESS_TOKEN).find(GROUP_ID)
 
       rebuilt = NoFB::Repository::For.entity(posts).create(posts)

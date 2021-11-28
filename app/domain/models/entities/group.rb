@@ -11,6 +11,8 @@ module NoFB
 
       attribute :group_name, String.optional
       attribute :group_id, Strict::String
+      attribute :updated_at, String.optional
+      attribute :created_at, String.optional
 
       def to_attr_hash
         to_hash.reject { |key, _| [:id].include? key }

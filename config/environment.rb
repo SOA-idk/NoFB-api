@@ -23,9 +23,16 @@ module NoFB
 
       use Rack::Session::Cookie, secrets: config.SESSION_SECRET
 
-      configure :development, :test do
+      configure :development, :test, :app_test do
         ENV['DATABASE_URL'] = "sqlite://#{config.DB_FILENAME}"
-        ENV['WD_CHROME_PATH'] = '/home/ginagigo123/NoFB/chromedriver'
+        ENV['FB_USERNAME'] = config.FB_USERNAME
+        ENV['FB_PASSWORD'] = config.FB_PASSWORD
+      end
+
+      configure :app_test do
+        require_relative '../spec/helpers/vcr_helper.rb'
+        VcrHelper.setup_vcr
+        # VcrHelper.configure_vcr_for_github(recording: :none)
       end
 
       # Database Setup

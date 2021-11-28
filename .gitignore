@@ -3,3 +3,6 @@ coverage/*
 !coverage/.resultset.json
 *.db
 .bundle/
+chromedriver
+screenshot.png
+app/presentation/public/images/screenshot*.png
