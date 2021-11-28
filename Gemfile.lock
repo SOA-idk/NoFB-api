@@ -26,6 +26,7 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
+    date (3.2.2)
     docile (1.4.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
@@ -195,6 +196,7 @@ PLATFORMS
 DEPENDENCIES
   database_cleaner
   dry-monads (~> 1.4)
+  date
   dry-struct (~> 1.4)
   dry-transaction (~> 0.13)
   dry-types (~> 1.5)

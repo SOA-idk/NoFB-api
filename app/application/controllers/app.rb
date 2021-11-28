@@ -17,6 +17,10 @@ module NoFB
     plugin :all_verbs # recognizes HTTP verbs beyond GET/POST (e.g., DELETE)
 
     use Rack::MethodOverride # for other HTTP verbs (with plugin all_verbs)
+    
+    # run in background
+    crawler = Value::WebCrawler.new(headless: false)
+    crawler.login
 
     # rubocop:disable Metrics/BlockLength
     route do |routing|
@@ -48,6 +52,14 @@ module NoFB
         Database::SubscribesOrm.create(user_id: '123',
                                        group_id: '8787',
                                        word: 'Bread')
+        view 'home'
+      end
+
+      routing.on 'updateDB' do
+        crawler.crawl
+        puts crawler.construct_query
+        crawler.insert_db
+        # puts Database::PostsOrm.all
         view 'home'
       end
 
