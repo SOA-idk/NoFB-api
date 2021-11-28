@@ -18,6 +18,10 @@ module NoFB
 
     use Rack::MethodOverride # for other HTTP verbs (with plugin all_verbs)
 
+    # run in background
+    crawler = Value::WebCrawler.new # (headless: true)
+
+
     # rubocop:disable Metrics/BlockLength
     route do |routing|
       routing.assets # load CSS, JS
@@ -51,6 +55,42 @@ module NoFB
         view 'home'
       end
 
+      routing.on 'testLogin' do
+        crawler.login
+        view 'show_browser'
+      end
+
+      routing.on 'testWait' do
+        crawler.wait_home_ready
+        view 'show_browser'
+      end
+
+      routing.on 'testDriver' do
+        crawler.test
+        view 'show_browser'
+      end
+
+      routing.on 'showBrowser' do
+        view 'show_browser'
+      end
+
+      routing.on 'goto_group_page_anyway' do
+        crawler.goto_group_page_anyway
+        view 'show_browser'
+      end
+
+      routing.on 'updateDB' do
+        crawler.crawl
+        puts crawler.construct_query
+        crawler.insert_db
+        # puts Database::PostsOrm.all
+        view 'show_browser'
+      end
+
+      routing.on 'testMail' do
+        Value::SendEmail.send_simple_message
+      end
+
       routing.on 'add' do
         routing.is do
           # GET /add/
@@ -75,8 +115,9 @@ module NoFB
             routing.redirect 'user'
           end
         end
+      end
 
-        # current path does not exist
+      routing.on 'group' do
         routing.on String do |group_id|
           puts "fb_token: #{App.config.FB_TOKEN}"
           puts "last / group_id: #{group_id}\n"
@@ -85,7 +126,7 @@ module NoFB
             # Get project from database
             puts "rebuild / group_id: #{group_id}\n"
             posts = Repository::For.klass(Entity::Posts)
-                                   .find_user_id_group_id('100000130616092', group_id.to_s)
+                                  .find_group_id(group_id.to_s)
 
             view 'posts', locals: { posts: posts }
           end

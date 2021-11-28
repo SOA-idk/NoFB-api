@@ -3,3 +3,5 @@ coverage/*
 !coverage/.resultset.json
 *.db
 .bundle/
+chromedriver
+screenshot.png

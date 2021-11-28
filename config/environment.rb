@@ -25,9 +25,10 @@ module NoFB
 
       configure :development, :test do
         ENV['DATABASE_URL'] = "sqlite://#{config.DB_FILENAME}"
-        ENV['WD_CHROME_PATH'] = '/home/ginagigo123/NoFB/chromedriver'
       end
 
+      ENV['FB_USERNAME'] = config.FB_USERNAME
+      ENV['FB_PASSWORD'] = config.FB_PASSWORD
       # Database Setup
       DB = Sequel.connect(ENV['DATABASE_URL'])
       # rubocop:disable Naming/MethodName

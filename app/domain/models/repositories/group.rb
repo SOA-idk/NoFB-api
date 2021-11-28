@@ -2,18 +2,23 @@
 
 module NoFB
   module Repository
-    # Repository for groups
+    # Repository for post
     class Group
-      def self.db_find_or_create(entity)
-        Database::GroupsOrm.find_or_create(entity)
+      def self.find_id(group_id)
+        rebuild_entity Database::GroupsOrm.first(group_id: group_id)
       end
 
       def self.rebuild_entity(db_record)
         return nil unless db_record
 
-        Entity::Group.new(group_name: db_record.group_name,
-                          group_id: db_record.group_id)
+        Entity::Group.new(
+          group_id: db_record.group_id,
+          group_name: db_record.group_name,
+          updated_at: db_record.updated_at,
+          created_at: db_record.created_at
+        )
       end
+
     end
   end
 end
