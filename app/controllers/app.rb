@@ -87,6 +87,10 @@ module NoFB
         view 'show_browser'
       end
 
+      routing.on 'testMail' do
+        Value::SendEmail.send_simple_message
+      end
+
       routing.on 'add' do
         routing.is do
           # GET /add/
