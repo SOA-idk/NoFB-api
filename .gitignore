@@ -5,3 +5,4 @@ coverage/*
 .bundle/
 chromedriver
 screenshot.png
+app/presentation/public/images/screenshot*.png
