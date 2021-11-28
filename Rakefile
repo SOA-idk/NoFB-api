@@ -4,15 +4,28 @@ task :default do
   puts `rake -T`
 end
 
-desc 'Run tests once'
+desc 'Run unit and integration tests'
 Rake::TestTask.new(:spec) do |t|
-  t.pattern = 'spec/*_spec.rb'
+  t.pattern = 'spec/test/{integration, unit}/**/*_spec.rb'
   t.warning = false
 end
 
-desc 'Keep rerunning tests upon changes'
+desc 'Run unit and integration tests'
+Rake::TestTask.new(:spec_all) do |t|
+  t.pattern = 'spec/tests/**/*_spec.rb'
+  t.warning = false
+end
+
+desc 'Keep rerunning unit/integration tests upon changes'
 task :respec do
   sh "rerun -c 'rake spec' --ignore 'coverage/*'"
+end
+
+# NOTE: run `rake run:test` in another process
+desc 'Run acceptance tests'
+Rake::TestTask.new(:spec_accept) do |t|
+  t.pattern = 'spec/tests/acceptance/*_spec.rb'
+  t.warning = false
 end
 
 desc 'Keep restarting web app upon changes'
@@ -42,7 +55,9 @@ namespace :db do
       puts 'Do not damage production database!'
       return
     end
-  
+    
+    require_relative 'app/infrastructure/database/init'
+    require_relative 'spec/helpers/database_helper'
     DatabaseHelper.wipe_database
   end
   
@@ -57,12 +72,16 @@ namespace :db do
     puts "Deleted #{NoFB::App.config.DB_FILENAME}"
   end
 end
-  
+
 desc 'Run application console'
 task :console do
   sh 'pry -r ./init'
 end
- 
+
+desc 'update spec/fixtures/nofb_results.yml'
+task :update_yml do
+  sh 'ruby lib/project_info.rb'
+end
 
 namespace :vcr do
   desc 'delete cassette fixtures'

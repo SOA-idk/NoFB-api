@@ -1,18 +1,17 @@
 # frozen_string_literal: true
 
-ENV['RACK_ENV'] = 'test'
+ENV['RACK_ENV'] ||= 'test'
 
 require 'simplecov'
 SimpleCov.start
 
 require 'yaml'
-
 require 'minitest/autorun'
 require 'minitest/rg'
 require 'vcr'
 require 'webmock'
 
-require_relative '../init'
+require_relative '../../init'
 
 GROUP_ID = '302165911402681'
 # CONFIG = YAML.safe_load(File.read('config/secrets.yml'))
@@ -22,3 +21,8 @@ CORRECT = YAML.safe_load(File.read('spec/fixtures/nofb_results.yml'))
 
 # CASSETTES_FOLDER = 'spec/fixtures/cassettes'
 # CASSETTE_FILE = 'Nofb_api'
+
+# Helper method for acceptance tests
+def homepage
+  NoFB::App.config.APP_HOST
+end

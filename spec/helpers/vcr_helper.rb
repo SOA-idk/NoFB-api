@@ -12,17 +12,18 @@ module VcrHelper
     VCR.configure do |cassette|
       cassette.cassette_library_dir = CASSETTES_FOLDER
       cassette.hook_into :webmock
+      cassette.ignore_localhost = true # for acceptance tests
     end
   end
 
   # :reek:TooManyStatements
-  def self.configure_vcr_for_fb
+  def self.configure_vcr_for_fb(recording: :new_episodes)
     VCR.configure do |cassette|
       cassette.filter_sensitive_data('<FB_TOKEN>') { FB_TOKEN }
       cassette.filter_sensitive_data('<FB_TOKEN_ESC>') { CGI.escape(FB_TOKEN) }
     end
 
-    VCR.insert_cassette(FB_CASSETTE, record: :new_episodes, match_requests_on: %i[method uri headers])
+    VCR.insert_cassette(FB_CASSETTE, record: recording, match_requests_on: %i[method uri headers], allow_playback_repeats: true)
   end
 
   def self.eject_vcr

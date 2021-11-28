@@ -1,5 +1,8 @@
-require_relative 'spec_helper'
-require_relative 'helpers/vcr_helper'
+# frozen_string_literal: true
+
+require_relative '../../../helpers/spec_helper'
+require_relative '../../../helpers/vcr_helper'
+
 
 describe 'Tests FB Group API' do
   before do 

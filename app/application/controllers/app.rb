@@ -126,7 +126,7 @@ module NoFB
             # Get project from database
             puts "rebuild / group_id: #{group_id}\n"
             posts = Repository::For.klass(Entity::Posts)
-                                  .find_group_id(group_id.to_s)
+                                   .find_group_id(group_id.to_s)
 
             view 'posts', locals: { posts: posts }
           end
