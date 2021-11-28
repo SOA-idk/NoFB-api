@@ -99,32 +99,19 @@ module NoFB
           end
           # POST /add/
           routing.post do
-            fb_url = routing.params['fb_url'].downcase
-            routing.halt 400 unless (fb_url.include? 'facebook.com') &&
-                                    (fb_url.split('/').count >= 5)
-            group_id = fb_url.split('/')[-1..][0].strip
-            subscribed_word = routing.params['subscribed_word']
+            # user_id = '123'
+            url_request = Forms::NewSubscription.new.call(routing.params)
+            subscription_made = Service::AddSubscriptions.new.call(url_request)
 
-            # Check if group is in database
-            begin
-              user_id = '123'
-              if Repository::Subscribes.find_id(user_id, group_id).nil?
-                Database::GroupsOrm.find_or_create(group_id: group_id,
-                                                   group_name: 'Test1')
-                Database::SubscribesOrm.create(group_id: group_id,
-                                               word: subscribed_word,
-                                               user_id: user_id)
-              else # group already exist
-                flash[:error] = 'You already subscribe to this group, go to edit it.'
-                routing.redirect 'user'
-              end
-            rescue StandardError
-              flash[:error] = 'Having trouble accessing Database.'
-              routing.redirect '/'
+            if subscription_made.failure?
+              flash[:error] = subscription_made.failure
+              routing.redirect 'user'
             end
 
-            session[:watching].insert(0, "#{user_id}/#{group_id}").uniq!
-            # Redirect viewer to project page
+            sub = subscription_made.value!
+            session[:watching].insert(0, "#{sub.user_id}/#{sub.group_id}").uniq!
+            flash[:notice] = 'Successfully subscribe to specific word(s).'
+
             routing.redirect 'user'
           end
         end
@@ -165,17 +152,17 @@ module NoFB
         routing.on String do |group_id|
           routing.delete do
             user_id = '123'
-            begin
-              query = Database::SubscribesOrm[group_id: group_id, user_id: user_id]
-              unless query.nil?
-                query.delete
+            delete_sub = Service::DeleteSubscriptions.new.call(group_id: group_id, user_id: user_id)
 
-                session[:watching].delete("#{user_id}/#{group_id}")
-                flash[:notice] = 'Successfully unsubscribe !'
-              end
-            rescue StandardError
+            if delete_sub.failure?
               flash[:error] = 'Having trouble accessing Database'
+              routing.redirect '/user'
             end
+
+            delete_path = delete_sub.value!
+            session[:watching].delete(delete_path)
+            flash[:notice] = 'Successfully unsubscribe !'
+
             routing.redirect '/user'
           end
 
@@ -191,17 +178,15 @@ module NoFB
           # UPDATE /user/groupId
           routing.patch do
             user_id = '123'
-            subscribed_word = routing.params['subscribed_word']
-            begin
-              sub = Entity::Subscribes.new(user_id: user_id,
-                                           group_id: group_id,
-                                           word: subscribed_word)
-              Repository::For.klass(Entity::Subscribes)
-                             .db_update_or_create(sub)
+            update_request = Forms::UpdateSubscription.new.call(routing.params)
+            update_made = Service::UpdateSubscription.new.call(user_id: user_id,
+                                                               group_id: group_id,
+                                                               word: update_request[:subscribed_word])
 
-              flash[:notice] = 'Successfully update subscribed words !'
-            rescue StandardError
+            if update_made.failure?
               flash[:error] = "Can't update the subscribed word!"
+            else
+              flash[:notice] = 'Successfully update subscribed words !'
             end
 
             routing.redirect '/user'
