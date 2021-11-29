@@ -32,7 +32,7 @@ module NoFB
       configure :app_test do
         require_relative '../spec/helpers/vcr_helper.rb'
         VcrHelper.setup_vcr
-        # VcrHelper.configure_vcr_for_github(recording: :none)
+        VcrHelper.configure_vcr_for_fb(recording: :none)
       end
 
       # Database Setup
