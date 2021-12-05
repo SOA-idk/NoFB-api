@@ -19,8 +19,9 @@ module VcrHelper
   # :reek:TooManyStatements
   def self.configure_vcr_for_fb(recording: :new_episodes)
     VCR.configure do |cassette|
-      cassette.filter_sensitive_data('<FB_TOKEN>') { FB_TOKEN }
-      cassette.filter_sensitive_data('<FB_TOKEN_ESC>') { CGI.escape(FB_TOKEN) }
+      # puts "in vcr ENV['FB_TOKEN']: #{ENV['FB_TOKEN']}"
+      cassette.filter_sensitive_data('<FB_TOKEN>') { ENV['FB_TOKEN'] }
+      cassette.filter_sensitive_data('<FB_TOKEN_ESC>') { CGI.escape(ENV['FB_TOKEN']) }
     end
 
     VCR.insert_cassette(FB_CASSETTE, record: recording, match_requests_on: %i[method uri headers], allow_playback_repeats: true)

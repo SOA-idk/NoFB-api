@@ -4,6 +4,10 @@ module NoFB
   module Repository
     # Repository for post
     class Group
+      def self.all
+        rebuild_entities Database::GroupsOrm.all
+      end
+
       def self.find_id(group_id)
         rebuild_entity Database::GroupsOrm.first(group_id: group_id)
       end
@@ -19,6 +23,13 @@ module NoFB
         )
       end
 
+      def self.rebuild_entities(db_records)
+        return nil unless db_records
+
+        db_records.map do |db_record|
+          rebuild_entity db_record
+        end
+      end
     end
   end
 end

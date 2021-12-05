@@ -21,7 +21,7 @@ module NoFB
       Figaro.load
       def self.config() = Figaro.env
 
-      use Rack::Session::Cookie, secrets: config.SESSION_SECRET
+      # use Rack::Session::Cookie, secrets: config.SESSION_SECRET
 
       configure :development, :test, :app_test do
         ENV['DATABASE_URL'] = "sqlite://#{config.DB_FILENAME}"
@@ -30,9 +30,9 @@ module NoFB
       end
 
       configure :app_test do
-        require_relative '../spec/helpers/vcr_helper.rb'
+        require_relative '../spec/helpers/vcr_helper'
         VcrHelper.setup_vcr
-        # VcrHelper.configure_vcr_for_github(recording: :none)
+        VcrHelper.configure_vcr_for_fb(recording: :none)
       end
 
       # Database Setup
