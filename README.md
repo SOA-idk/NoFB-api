@@ -82,12 +82,15 @@ Status:
 
 Status
 
-- 200: appraisal returned (happy)
-- 500: problems about the access_key (bad)
+- 200: content returned (happy)
+- 403: problems about the access_key (sad)
+- 500: problem of DB (bad)
 
 ### Create a new subscribe
 
-`POST /subscribe?access_key={access_key}`
+`POST /subscribes?access_key={access_key}`
 
 - 201: new subscribe stored (happy)
-- 500: problems storing the project (bad)
+- 400: the given subscribe has existed (sad)
+- 403: problems about the access_key (sad)
+- 500: problems of DB (bad)

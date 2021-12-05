@@ -11,7 +11,7 @@ module NoFB
         api_key = ENV['MAILGUN_API_KEY']
         send_url = "https://api:#{api_key}@api.mailgun.net/v3/#{domain_name}/messages"
         RestClient.post send_url,
-                        from: "idk-nofb <admin@idk-nofb.com>",
+                        from: 'idk-nofb <admin@idk-nofb.com>',
                         to: 'hhoracehsu@gmail.com',
                         subject: 'Subscribed Words Notification',
                         text: 'Testing some Mailgun awesomness!'
