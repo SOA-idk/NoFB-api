@@ -40,10 +40,8 @@ module NoFB
 
       def store_subscribes(input)
         create_group(input)
-        create_subscribes(input)
-        Response::ProjectFolderContributions.new(input).then do |subscribe|
-          Success(Response::ApiResult.new(status: :created, message: subscribe))
-        end
+        subscribe = create_subscribes(input)
+        Success(Response::ApiResult.new(status: :created, message: subscribe))
       rescue StandardError => e
         puts e.backtrace.join("\n")
         Failure(Response::ApiResult.new(status: :internal_error, message: 'Having trouble accessing Database.'))

@@ -14,9 +14,9 @@ module NoFB
 
       def show_all
         content = Repository::For.klass(Entity::Posts).all
-        Response::ProjectFolderContributions.new(content)
-                                            .then do |appraisal|
-          Success(Response::ApiResult.new(status: :ok, message: appraisal))
+        Response::PostsList.new(content)
+                           .then do |list|
+          Success(Response::ApiResult.new(status: :ok, message: list))
         end
       rescue StandardError
         Failure(Response::ApiResult.new(status: :internal_error, message: 'Having trouble accessing Database.'))

@@ -31,7 +31,6 @@ module NoFB
         result_response.to_json
       end
 
-      
       routing.on 'api/v1' do
         if routing.params['access_key'] == '123'
           routing.on 'users' do
@@ -46,7 +45,7 @@ module NoFB
               http_response = Representer::HttpResponse.new(result.value!)
               response.status = http_response.http_status_code
 
-              Representer::ProjectFolderContributions.new(
+              Representer::UsersList.new(
                 result.value!.message
               ).to_json
             end

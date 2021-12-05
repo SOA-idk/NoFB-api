@@ -6,12 +6,13 @@ require 'roar/json'
 module NoFB
   module Representer
     #  Represents Group information for API output
-    class Subscribes < Roar::Decorator
+    class User < Roar::Decorator
       include Roar::JSON
 
       property :user_id
-      property :group_id
-      property :word
+      property :user_name
+      property :user_email
+      property :user_img
     end
   end
 end
