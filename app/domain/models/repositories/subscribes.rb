@@ -4,6 +4,10 @@ module NoFB
   module Repository
     # Repository for post
     class Subscribes
+      def self.all
+        rebuild_entities Database::SubscribesOrm.all
+      end
+
       def self.find_all(user_id)
         rebuild_entities Database::SubscribesOrm.where(user_id: user_id).all
       end

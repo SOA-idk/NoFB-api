@@ -21,7 +21,7 @@ module NoFB
           subscribed_word = input[:subscribed_word]
           Success(group_id: group_id, subscribed_word: subscribed_word, user_id: user_id)
         else
-          Failure("URL #{input.errors.messages.first}")
+          Failure(Response::ApiResult.new(status: :not_found, message: "URL #{input.errors.messages.first}"))
         end
       end
 
@@ -29,23 +29,22 @@ module NoFB
         if subscribe_in_database(input).nil?
           Success(input)
         else
-          Failure('You already subscribe to this group, go to edit it.')
+          Failure(Response::ApiResult.new(
+                    status: :bad_request,
+                    message: 'You already subscribe to this group, go to edit it.'
+                  ))
         end
       rescue StandardError
-        Failure('Having trouble accessing Database.')
+        Failure(Response::ApiResult.new(status: :internal_error, message: 'Having trouble accessing Database.'))
       end
 
       def store_subscribes(input)
         create_group(input)
-        create_subscribes(input)
-        subscribes = Entity::Subscribes.new(group_id: input[:group_id],
-                                            word: input[:subscribed_word],
-                                            user_id: input[:user_id])
-        puts 'subscribe'
-        Success(subscribes)
+        subscribe = create_subscribes(input)
+        Success(Response::ApiResult.new(status: :created, message: subscribe))
       rescue StandardError => e
         puts e.backtrace.join("\n")
-        Failure('Having trouble accessing Database.')
+        Failure(Response::ApiResult.new(status: :internal_error, message: 'Having trouble accessing Database.'))
       end
 
       def subscribe_in_database(input)
