@@ -1,25 +1,6 @@
-# NoFB
+# NoFB Web API
 ## Purpose
-The users could subscribe to specific words in a facebook group. When there are any posts related to specific words, NoFB would notify users by sending email to them.
-The best word to describe us is **Notification**.
-
-## Resources
-- class Posts
-- class Post 
-
-### Element
-- class Posts
-  * @size = int
-  * @posts = [Post, Post, ...]
-  * @post_list = [id, id, id, ...]
-- class Post 
-  * @updated_time
-  * @message
-  * @id
-
-### Entities
-There are objects that are import to the Facebook group.
-* Posts
+Web API allow user to review/edit the database content of NoFB database.
 
 ## Installation
 ```bash=
@@ -62,20 +43,51 @@ rake db:drop
 ```
 
 ## Design of table in Database
-1. Groups
+1. groups
 
 | group_id | group_name | updated_at | created_at |
 | -------- | ---------- | ---------- | ---------- |
-| String   | String     | String     | String     |
+| String   | String     | String   | String   |
 
-2. Posts
+2. posts
 
-| post_id | updated_time | message | user_id | group_id |
-| ------- | ------------ | ------- | ------- | -------- |
-| String  | String       | String  | String  | String   |
+| post_id | group_id | user_name | message | updated_time |
+| ------- | -------- | ------- | ------- | ------------ |
+| String  | String   | String  | String  | String       |
 
-3. Users
+3. users
 
-| user_id | user_email | access_token |
+| user_id | user_email | user_name |
 | ------- | ---------- | ------------ |
 | String  | String     | String       |
+
+4. subscribes
+
+| user_id | group_id | word   |
+| ------- | -------- | ------ |
+| String  | String   | String |
+
+## Routes
+### Root check
+`GET /`
+Status:
+- 200: API server running (happy)
+
+### Get DB content
+
+`GET /users?access_key={access_key}`
+`GET /posts?access_key={access_key}`
+`GET /groups?access_key={access_key}`
+`GET /subscribes?access_key={access_key}`
+
+Status
+
+- 200: appraisal returned (happy)
+- 500: problems about the access_key (bad)
+
+### Create a new subscribe
+
+`POST /subscribe?access_key={access_key}`
+
+- 201: new subscribe stored (happy)
+- 500: problems storing the project (bad)
