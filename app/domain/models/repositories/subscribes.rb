@@ -21,7 +21,7 @@ module NoFB
         return nil unless db_record
 
         Entity::Subscribes.new(
-          user_id: db_record.user_id.to_s,
+          user_id: db_record.user_id,
           word: db_record.word,
           group_id: db_record.group_id.to_s
         )

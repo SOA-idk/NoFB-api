@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module CodePraise
+module NoFB
   module Response
     # List of projects
     UsersList = Struct.new(:users)

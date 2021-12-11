@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module CodePraise
+module NoFB
   module Response
     SUCCESS = Set.new(
       %i[ok created processing no_content]

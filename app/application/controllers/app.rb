@@ -5,16 +5,13 @@ require 'roda'
 module NoFB
   # Web App
   class App < Roda
-    plugin :public, root: 'app/presentation/public'
+    plugin :public #, root: 'app/presentation/public'
 
     plugin :halt
     plugin :flash
     plugin :all_verbs # recognizes HTTP verbs beyond GET/POST (e.g., DELETE)
 
     use Rack::MethodOverride # for other HTTP verbs (with plugin all_verbs)
-
-    # run in background
-    # crawler = Value::WebCrawler.new # (headless: true)
 
     # rubocop:disable Metrics/BlockLength
     route do |routing|
@@ -33,6 +30,8 @@ module NoFB
 
       routing.on 'api/v1' do
         if routing.params['access_key'] == '123'
+          
+          # GET /api/v1/users
           routing.on 'users' do
             routing.get do
               result = Service::ShowUsers.new.call
@@ -50,6 +49,8 @@ module NoFB
               ).to_json
             end
           end
+
+          # GET /api/v1/posts
           routing.on 'posts' do
             routing.get do
               result = Service::ShowPosts.new.call
@@ -62,11 +63,14 @@ module NoFB
               http_response = Representer::HttpResponse.new(result.value!)
               response.status = http_response.http_status_code
 
-              Representer::ProjectFolderContributions.new(
+              puts Representer::PostsList.new( result.value!.message )
+              Representer::PostsList.new(
                 result.value!.message
               ).to_json
             end
           end
+
+          # GET /api/v1/groups
           routing.on 'groups' do
             routing.get do
               result = Service::ShowGroups.new.call
@@ -79,12 +83,14 @@ module NoFB
               http_response = Representer::HttpResponse.new(result.value!)
               response.status = http_response.http_status_code
 
-              Representer::ProjectFolderContributions.new(
+              Representer::GroupsList.new(
                 result.value!.message
               ).to_json
             end
           end
+
           routing.on 'subscribes' do
+            # GET /api/v1/subscribes
             routing.get do
               result = Service::ShowSubscribes.new.call
 
@@ -96,10 +102,12 @@ module NoFB
               http_response = Representer::HttpResponse.new(result.value!)
               response.status = http_response.http_status_code
 
-              Representer::ProjectFolderContributions.new(
+              Representer::SubscribesList.new(
                 result.value!.message
               ).to_json
             end
+
+            # POST /api/v1/subscribes
             routing.post do
               result = Service::AddSubscribes.new.call(fb_url: fb_url, subscribed_word: subscribed_word)
 
@@ -111,7 +119,7 @@ module NoFB
               http_response = Representer::HttpResponse.new(result.value!)
               response.status = http_response.http_status_code
 
-              Representer::ProjectFolderContributions.new(
+              Representer::SubscribesList.new(
                 result.value!.message
               ).to_json
             end
