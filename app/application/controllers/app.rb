@@ -4,7 +4,8 @@ require 'roda'
 
 module NoFB
   # Web App
-  class App < Roda
+  # rubocop:disable Metrics/ClassLength
+  class App < Roda 
     plugin :public
 
     plugin :halt
@@ -17,6 +18,27 @@ module NoFB
     route do |routing|
       routing.public # make GET public/images/
       response['Content-Type'] = 'application/json'
+
+      # routing.on 'init' do
+      #   # posts = Repository::For.klass(Entity::Posts).all
+      #   NoFB::Database::UsersOrm.find_or_create(user_id: '123',
+      #                                     user_email: 'hhoracehsu@@gmail.com',
+      #                                     user_name: '242234',
+      #                                     user_img: 'img test')
+
+      #   NoFB::Database::GroupsOrm.find_or_create(group_id: '4534',
+      #                                      group_name: 'lalalala')
+
+      #   NoFB::Database::GroupsOrm.find_or_create(group_id: '8787',
+      #                                      group_name: 'Idiot')
+
+      #   NoFB::Database::SubscribesOrm.create(user_id: '123',
+      #                                  group_id: '4534',
+      #                                  word: 'cookies, sell')
+      #   NoFB::Database::SubscribesOrm.create(user_id: '123',
+      #                                  group_id: '8787',
+      #                                  word: 'Bread')
+      # end
 
       # GET /
       routing.root do
@@ -154,10 +176,10 @@ module NoFB
                 http_response = Representer::HttpResponse.new(result.value!)
                 response.status = http_response.http_status_code
 
-                puts 'result:'
-                puts result
-                Representer::SubscribesList.new(
-                  result.value!.message
+                # puts 'result:'
+                # puts result
+                Representer::Subscribe.new(
+                  result.value!.message.subscribe
                 ).to_json
               end
             end

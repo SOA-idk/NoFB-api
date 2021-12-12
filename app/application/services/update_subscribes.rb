@@ -16,12 +16,12 @@ module NoFB
       DB_ERROR = 'Having trouble accessing Database.'
 
       def update_query(input)
-        puts 'update_query:'
-        puts input
+        # puts 'update_query:'
+        # puts input
         sub = Entity::Subscribes.new(user_id: input[:user_id],
                                      group_id: input[:group_id],
                                      word: input[:word])
-        puts 'db_update'
+        # puts 'db_update'
         Repository::For.klass(Entity::Subscribes)
                        .db_update_or_create(sub)
         Success(user_id: input[:user_id], group_id: input[:group_id], word: input[:word])
@@ -30,7 +30,7 @@ module NoFB
       end
 
       def show_subscribe(input)
-        puts 'show sub'
+        # puts 'show sub'
         Repository::For.klass(Entity::Subscribes).find_id(input[:user_id], input[:group_id])
                        .then { |record| Response::Subscribe.new(record) }
                        .then { |response| Response::ApiResult.new(status: :ok, message: response) }
