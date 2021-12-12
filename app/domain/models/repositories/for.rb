@@ -4,6 +4,7 @@ require_relative 'post'
 require_relative 'posts'
 require_relative 'group'
 require_relative 'subscribes'
+require_relative 'users'
 
 module NoFB
   module Repository
@@ -13,7 +14,8 @@ module NoFB
         Entity::Post => Post,
         Entity::Posts => Posts,
         Entity::Subscribes => Subscribes,
-        Entity::Group => Group
+        Entity::Group => Group,
+        Entity::User => Users
       }.freeze
 
       def self.klass(entity_klass)

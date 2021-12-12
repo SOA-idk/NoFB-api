@@ -10,10 +10,10 @@ module NoFB
       include Roar::JSON
 
       property :post_id
-      property :updated_at
+      property :updated_time
       property :message
       property :user_name
-      property :group_id, extend: Representer::Group, class: OpenStruct
+      property :group_id # , extend: Representer::Group, class: OpenStruct
     end
   end
 end

@@ -6,7 +6,7 @@ require 'roar/json'
 require_relative 'openstruct_with_links'
 require_relative 'user'
 
-module CodePraise
+module NoFB
   module Representer
     # Represents list of projects for API output
     class PostsList < Roar::Decorator

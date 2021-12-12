@@ -15,9 +15,8 @@ module NoFB
       def show_all
         content = Repository::For.klass(Entity::Subscribes).all
         Response::SubscribesList.new(content)
-                                 .then do |list|
-          Success(Response::ApiResult.new(status: :ok, message: list))
-        end
+                                .then { |list| Response::ApiResult.new(status: :ok, message: list) }
+                                .then { |result| Success(result) }
       rescue StandardError
         Failure(Response::ApiResult.new(status: :internal_error, message: 'Having trouble accessing Database.'))
       end

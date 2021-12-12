@@ -13,11 +13,10 @@ module NoFB
       private
 
       def show_all
-        content = Repository::For.klass(Entity::Users).all
-        Response::UsersList.new(content)
-                       .then do |list|
-          Success(Response::ApiResult.new(status: :ok, message: list))
-        end
+        users = Repository::For.klass(Entity::User).all
+        Response::UsersList.new(users)
+                           .then { |userlist| Response::ApiResult.new(status: :ok, message: userlist) }
+                           .then { |result| Success(result) }
       rescue StandardError
         Failure(Response::ApiResult.new(status: :internal_error, message: 'Having trouble accessing Database.'))
       end

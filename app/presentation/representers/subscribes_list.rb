@@ -6,14 +6,13 @@ require 'roar/json'
 require_relative 'openstruct_with_links'
 require_relative 'user'
 
-module CodePraise
+module NoFB
   module Representer
     # Represents list of projects for API output
     class SubscribesList < Roar::Decorator
       include Roar::JSON
 
-      collection :subscribes, extend: Representer::Subscribe,
-                         class: Representer::OpenStructWithLinks
+      collection :subscribes, extend: Representer::Subscribe, class: Representer::OpenStructWithLinks
     end
   end
 end
