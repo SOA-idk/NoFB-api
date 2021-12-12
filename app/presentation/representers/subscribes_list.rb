@@ -4,7 +4,7 @@ require 'roar/decorator'
 require 'roar/json'
 
 require_relative 'openstruct_with_links'
-require_relative 'user'
+require_relative 'subscribe'
 
 module NoFB
   module Representer

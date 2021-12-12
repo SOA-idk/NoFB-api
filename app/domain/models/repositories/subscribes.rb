@@ -8,8 +8,8 @@ module NoFB
         rebuild_entities Database::SubscribesOrm.all
       end
 
-      def self.find_all(user_id)
-        rebuild_entities Database::SubscribesOrm.where(user_id: user_id).all
+      def self.find_all(input)
+        rebuild_entities Database::SubscribesOrm.where(user_id: input[:user_id]).all
       end
 
       def self.find_id(user_id, group_id)

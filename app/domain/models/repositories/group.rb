@@ -12,6 +12,10 @@ module NoFB
         rebuild_entity Database::GroupsOrm.first(group_id: group_id)
       end
 
+      def self.db_find_or_create(input)
+        Database::GroupsOrm.find_or_create(input)
+      end
+
       def self.rebuild_entity(db_record)
         return nil unless db_record
 

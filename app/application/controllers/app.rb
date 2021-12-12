@@ -109,7 +109,7 @@ module NoFB
 
             # POST /api/v1/subscribes
             routing.post do
-              result = Service::AddSubscribes.new.call(fb_url: fb_url, subscribed_word: subscribed_word)
+              result = Service::AddSubscriptions.new.call(routing.params)
 
               if result.failure?
                 failed = Representer::HttpResponse.new(result.failure)
