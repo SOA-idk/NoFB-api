@@ -3,7 +3,7 @@
 require 'roar/decorator'
 require 'roar/json'
 
-module CodePraise
+module NoFB
   module Representer
     # Representer for HTTP response information
     # Usage:

@@ -11,6 +11,7 @@ module NoFB
       attribute :user_name, String.optional
       attribute :user_email, String.optional
       attribute :user_id, Strict::String
+      attribute :user_img, String.optional
 
       def to_attr_hash
         to_hash.reject { |key, _| [:id].include? key }

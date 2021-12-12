@@ -9,8 +9,8 @@ module NoFB
     class Subscribe < Roar::Decorator
       include Roar::JSON
 
-      property :user_id, extend: Representer::User, class: OpenStruct
-      property :group_id, extend: Representer::Group, class: OpenStruct
+      property :user_id # , extend: Representer::User, class: OpenStruct
+      property :group_id #, extend: Representer::Group, class: OpenStruct
       property :word
     end
   end

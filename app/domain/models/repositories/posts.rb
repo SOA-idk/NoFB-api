@@ -5,7 +5,7 @@ module NoFB
     # Repository for post
     class Posts
       def self.all
-        rebuild_entity Database::PostsOrm.all
+        rebuild_entities Database::PostsOrm.all
       end
 
       def self.find_group_id(group_id)
@@ -16,8 +16,9 @@ module NoFB
         return nil unless db_records
 
         post_list = db_records.map(&:post_id)
-        group = NoFB::Repository::Group.find_id(db_records.first.group_id.to_s)
+        return nil if post_list.empty?
 
+        group = NoFB::Repository::Group.find_id(db_records.first.group_id.to_s)
         Entity::Posts.new(
           posts: Post.rebuild_many(db_records),
           size: db_records.count,
@@ -25,6 +26,22 @@ module NoFB
           group_id: db_records.first.group_id.to_s, # all db_records.group_id should be the same
           group_name: group.group_name
         )
+      end
+
+      def self.rebuild_entities(db_records)
+        return nil unless db_records
+
+        result = db_records.map do |db_record|
+          Entity::Post.new(
+            post_id: db_record.post_id,
+            group_id: db_record.group_id,
+            user_name: db_record.user_name,
+            message: db_record.message,
+            updated_time: db_record.updated_time
+          )
+        end
+
+        result
       end
 
       def self.find(entity)
