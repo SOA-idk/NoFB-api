@@ -122,6 +122,45 @@ module NoFB
                 result.value!.message
               ).to_json
             end
+
+            routing.on String, String do |user_id, group_id|
+              # DELETE /api/v1/subscribes/{user_id}/{group_id}
+              routing.delete do
+                result = Service::DeleteSubscription.new.call(user_id: user_id, group_id: group_id)
+                if result.failure?
+                  failed = Representer::HttpResponse.new(result.failure)
+                  routing.halt failed.http_status_code, failed.to_json
+                end
+
+                http_response = Representer::HttpResponse.new(result.value!)
+                response.status = http_response.http_status_code
+
+                Representer::SubscribesList.new(
+                  result.value!.message
+                ).to_json
+              end
+
+              # PATCH /api/v1/subscribes/{user_id}/{group_id}
+              routing.patch do
+                result = Service::UpdateSubscription.new.call(user_id: user_id,
+                                                              group_id: group_id,
+                                                              word: routing.params['subscribed_word'])
+
+                if result.failure?
+                  failed = Representer::HttpResponse.new(result.failure)
+                  routing.halt failed.http_status_code, failed.to_json
+                end
+
+                http_response = Representer::HttpResponse.new(result.value!)
+                response.status = http_response.http_status_code
+
+                puts 'result:'
+                puts result
+                Representer::SubscribesList.new(
+                  result.value!.message
+                ).to_json
+              end
+            end
           end
         else
           message = 'problems about the access_key'

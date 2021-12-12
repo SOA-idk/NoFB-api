@@ -7,5 +7,6 @@ module NoFB
     GroupsList = Struct.new(:groups)
     SubscribesList = Struct.new(:subscribes)
     PostsList = Struct.new(:posts)
+    Subscribe = Struct.new(:subscribe)
   end
 end
