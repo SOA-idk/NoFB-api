@@ -5,7 +5,7 @@ require 'roda'
 module NoFB
   # Web App
   class App < Roda
-    plugin :public #, root: 'app/presentation/public'
+    plugin :public
 
     plugin :halt
     plugin :flash
@@ -30,7 +30,6 @@ module NoFB
 
       routing.on 'api/v1' do
         if routing.params['access_key'] == '123'
-          
           # GET /api/v1/users
           routing.on 'users' do
             routing.get do
