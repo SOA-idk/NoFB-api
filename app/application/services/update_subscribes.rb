@@ -13,19 +13,20 @@ module NoFB
 
       private
 
-      DB_ERROR = 'Having trouble accessing Database.'
+      REQUEST_ERROR = 'Cannot update unexisted subscribe.'
+      DB_ERROR = 'Having trouble accessing Database(db_update).'
+      RES_ERROR = 'Having trouble in find or response.'
 
       def update_query(input)
-        # puts 'update_query:'
-        # puts input
-        sub = Entity::Subscribes.new(user_id: input[:user_id],
-                                     group_id: input[:group_id],
-                                     word: input[:word])
-        # puts 'db_update'
-        Repository::For.klass(Entity::Subscribes)
-                       .db_update_or_create(sub)
-        Success(user_id: input[:user_id], group_id: input[:group_id], word: input[:word])
-      rescue StandardError
+        result = Repository::For.klass(Entity::Subscribes)
+                                .db_update(input)
+        if result.nil?
+          Failure(Response::ApiResult.new(status: :not_found, message: REQUEST_ERROR))
+        else
+          Success(user_id: input[:user_id], group_id: input[:group_id], word: input[:word])
+        end
+      rescue StandardError => e
+        puts e.backtrace.join("\n")
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERROR))
       end
 
@@ -37,7 +38,7 @@ module NoFB
                        .then { |result| Success(result) }
 
       rescue StandardError
-        Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERROR))
+        Failure(Response::ApiResult.new(status: :internal_error, message: RES_ERROR))
       end
     end
   end

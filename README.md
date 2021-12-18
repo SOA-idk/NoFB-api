@@ -96,13 +96,14 @@ Status
 - 403: problems about the access_key (sad)
 - 500: problems of DB (bad)
 
-### Update (or create) a subscribe
+### Update a subscribe
 
 `PATCH /api/v1/subscribes/{user_id}/{group_id}?access_key={access_key}`
 `Body: subscribed_word(Text)`
 
 - 200: subscribe updated (happy)
 - 403: problems about the access_key (sad)
+- 404: cannot find the subscribe of given user_id and group_id
 - 500: problems of DB (bad)
 
 ### Delete a subscribe
