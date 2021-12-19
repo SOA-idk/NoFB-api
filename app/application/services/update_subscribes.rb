@@ -36,7 +36,6 @@ module NoFB
                        .then { |record| Response::Subscribe.new(record) }
                        .then { |response| Response::ApiResult.new(status: :ok, message: response) }
                        .then { |result| Success(result) }
-
       rescue StandardError
         Failure(Response::ApiResult.new(status: :internal_error, message: RES_ERROR))
       end

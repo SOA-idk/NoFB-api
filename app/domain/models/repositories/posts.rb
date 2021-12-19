@@ -16,7 +16,6 @@ module NoFB
         return nil unless db_records
 
         post_list = db_records.map(&:post_id)
-        return nil if post_list.empty?
 
         group = NoFB::Repository::Group.find_id(db_records.first.group_id.to_s)
         Entity::Posts.new(
@@ -31,7 +30,7 @@ module NoFB
       def self.rebuild_entities(db_records)
         return nil unless db_records
 
-        result = db_records.map do |db_record|
+        db_records.map do |db_record|
           Entity::Post.new(
             post_id: db_record.post_id,
             group_id: db_record.group_id,
@@ -40,8 +39,6 @@ module NoFB
             updated_time: db_record.updated_time
           )
         end
-
-        result
       end
 
       def self.find(entity)

@@ -8,23 +8,31 @@ module NoFB
     class DeleteSubscription
       include Dry::Transaction
 
-      step :create_query
+      step :delete_subscribes
+      step :show_all
 
       private
 
       DB_ERROR = 'Having trouble accessing Database.'
+      DB_DEL_ERROR = 'Having trouble deleting.'
       PATH_ERROR = 'Having no subscription on this group.'
 
-      def create_query(input)
-        unless find_in_db?(input)
-          Repository::For.klass(Entity::Subscribes).delete(input)
-          Repository::For.klass(Entity::Subscribes).find_all(user_id: input[:user_id])
-                         .then { |record| Response::SubscribesList.new(record) }
-                         .then { |response| Response::ApiResult.new(status: :ok, message: response) }
-                         .then { |result| Success(result) }
-        else
+      def delete_subscribes(input)
+        if find_in_db?(input)
           Failure(Response::ApiResult.new(status: :not_found, message: PATH_ERROR))
+        else
+          Repository::For.klass(Entity::Subscribes).delete(input)
+          Success
         end
+      rescue StandardError
+        Failure(Response::ApiResult.new(status: :internal_error, message: DB_DEL_ERROR))
+      end
+
+      def show_all
+        Repository::For.klass(Entity::Subscribes).find_all(user_id: input[:user_id])
+                       .then { |record| Response::SubscribesList.new(record) }
+                       .then { |response| Response::ApiResult.new(status: :ok, message: response) }
+                       .then { |result| Success(result) }
       rescue StandardError
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERROR))
       end
