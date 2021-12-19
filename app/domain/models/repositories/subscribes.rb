@@ -16,12 +16,20 @@ module NoFB
         rebuild_entity Database::SubscribesOrm.first(user_id: user_id, group_id: group_id)
       end
 
+      def self.query(input)
+        Database::SubscribesOrm[input]
+      end
+
+      def self.delete(input)
+        Database::SubscribesOrm[input].delete
+      end
+
       # single record
       def self.rebuild_entity(db_record)
         return nil unless db_record
 
         Entity::Subscribes.new(
-          user_id: db_record.user_id,
+          user_id: db_record.user_id.to_s,
           word: db_record.word,
           group_id: db_record.group_id.to_s
         )
@@ -36,17 +44,14 @@ module NoFB
         end
       end
 
-      # :reek:NilCheck
-      def self.db_update_or_create(entity)
+      def self.db_update(entity)
         existing = find_id(entity[:user_id], entity[:group_id])
-        if existing.nil?
-          Database::SubscribesOrm.create(entity)
-        else
-          # update word
-          update_info = Entity::Subscribes.new(user_id: existing.user_id.to_s, word: entity.word,
-                                               group_id: existing.group_id.to_s)
-          Database::SubscribesOrm.update(update_info)
-        end
+        return nil unless existing
+
+        # update word
+        update_info = Entity::Subscribes.new(user_id: existing.user_id.to_s, word: entity[:word],
+                                             group_id: existing.group_id.to_s)
+        Database::SubscribesOrm.update(update_info)
       end
     end
   end

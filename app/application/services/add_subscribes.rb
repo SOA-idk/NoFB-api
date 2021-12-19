@@ -17,7 +17,7 @@ module NoFB
 
       URL_ERROR = 'Facebook url is wrong, please check it.'
       DB_ERROR = 'Having trouble accessing Database.'
-      URL_REGEX = %r{(http[s]?)\:\/\/(www.)?facebook\.com}
+      URL_REGEX = %r{(https?)://(www.)?facebook\.com}
 
       def parse_url(input)
         Failure(Response::ApiResult.new(status: :not_found, message: URL_ERROR)) unless URL_REGEX.match?(input[:fb_url])

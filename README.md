@@ -89,8 +89,28 @@ Status
 ### Create a new subscribe
 
 `POST /subscribes?access_key={access_key}`
+`Body: user_id(Text), fb_url(Text), subscribed_word(Text)`
 
 - 201: new subscribe stored (happy)
 - 400: the given subscribe has existed (sad)
 - 403: problems about the access_key (sad)
+- 500: problems of DB (bad)
+
+### Update a subscribe
+
+`PATCH /api/v1/subscribes/{user_id}/{group_id}?access_key={access_key}`
+`Body: subscribed_word(Text)`
+
+- 200: subscribe updated (happy)
+- 403: problems about the access_key (sad)
+- 404: cannot find the subscribe of given user_id and group_id
+- 500: problems of DB (bad)
+
+### Delete a subscribe
+
+`DELETE /api/v1/subscribes/{user_id}/{group_id}?access_key={access_key}`
+
+- 200: subscribe deleted (happy)
+- 403: problems about the access_key (sad)
+- 404: the given subscribe not found (sad)
 - 500: problems of DB (bad)
