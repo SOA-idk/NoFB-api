@@ -53,6 +53,10 @@ module NoFB
                                              group_id: existing.group_id.to_s)
         Database::SubscribesOrm.update(update_info)
       end
+
+      def self.db_create(entity)
+        Database::SubscribesOrm.create(entity)
+      end
     end
   end
 end

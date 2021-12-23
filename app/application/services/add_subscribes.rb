@@ -16,11 +16,13 @@ module NoFB
       private
 
       URL_ERROR = 'Facebook url is wrong, please check it.'
-      DB_ERROR = 'Having trouble accessing Database.'
+      DB_FIND_ERROR = 'Having trouble accessing Database(finding).'
+      DB_STORE_ERROR = 'Having trouble store Database.'
+      DB_SHOW_ERROR = 'Having trouble show Database.'
       URL_REGEX = %r{(https?)://(www.)?facebook\.com}
 
       def parse_url(input)
-        Failure(Response::ApiResult.new(status: :not_found, message: URL_ERROR)) unless URL_REGEX.match?(input[:fb_url])
+        Failure(Response::ApiResult.new(status: :not_found, message: URL_ERROR)) unless URL_REGEX.match?(input['fb_url'])
 
         user_id = '123'
         group_id = input['fb_url'].downcase.split('/')[-1..][0].strip
@@ -38,7 +40,7 @@ module NoFB
                   ))
         end
       rescue StandardError
-        Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERROR))
+        Failure(Response::ApiResult.new(status: :internal_error, message: DB_FIND_ERROR))
       end
 
       def store_subscribes(input)
@@ -47,7 +49,7 @@ module NoFB
         Success(input)
       rescue StandardError => e
         puts e.backtrace.join("\n")
-        Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERROR))
+        Failure(Response::ApiResult.new(status: :internal_error, message: DB_STORE_ERROR))
       end
 
       def show_subscribes(input)
@@ -58,6 +60,9 @@ module NoFB
         Response::SubscribesList.new(content)
                                 .then { |list| Response::ApiResult.new(status: :created, message: list) }
                                 .then { |result| Success(result) }
+      rescue StandardError => e
+        puts e.backtrace.join("\n")
+        Failure(Response::ApiResult.new(status: :internal_error, message: DB_SHOW_ERROR))
       end
 
       def subscribe_in_database(input)
@@ -68,16 +73,20 @@ module NoFB
         Repository::For.klass(Entity::Group)
                        .db_find_or_create(group_id: input[:group_id],
                                           group_name: 'Test1')
-      rescue StandardEriror
+      rescue StandardError => e
+        puts "#{e.class.name} #{e.message}"
+        puts e.backtrace.join("\n")
         raise "Could't find or create a group"
       end
 
       def create_subscribes(input)
         Repository::For.klass(Entity::Subscribes)
-                       .db_update_or_create(group_id: input[:group_id],
-                                            word: input[:subscribed_word],
-                                            user_id: input[:user_id])
-      rescue StandardError
+                       .db_create(group_id: input[:group_id],
+                                  word: input[:subscribed_word],
+                                  user_id: input[:user_id])
+      rescue StandardError => e
+        puts "#{e.class.name} #{e.message}"
+        puts e.backtrace.join("\n")
         raise "Could't find or create subscriptions"
       end
     end

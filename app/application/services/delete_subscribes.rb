@@ -14,6 +14,7 @@ module NoFB
       private
 
       DB_ERROR = 'Having trouble accessing Database.'
+      DB_FIND_ERROR = 'Having trouble accessing Database(finding).'
       DB_DEL_ERROR = 'Having trouble deleting.'
       PATH_ERROR = 'Having no subscription on this group.'
 
@@ -22,13 +23,13 @@ module NoFB
           Failure(Response::ApiResult.new(status: :not_found, message: PATH_ERROR))
         else
           Repository::For.klass(Entity::Subscribes).delete(input)
-          Success
+          Success(input)
         end
       rescue StandardError
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_DEL_ERROR))
       end
 
-      def show_all
+      def show_all(input)
         Repository::For.klass(Entity::Subscribes).find_all(user_id: input[:user_id])
                        .then { |record| Response::SubscribesList.new(record) }
                        .then { |response| Response::ApiResult.new(status: :ok, message: response) }
@@ -39,6 +40,10 @@ module NoFB
 
       def find_in_db?(input)
         Repository::For.klass(Entity::Subscribes).query(input).nil?
+      rescue StandardError => e
+        puts "#{e.class.name} #{e.message}"
+        puts e.backtrace.join("\n")
+        Failure(Response::ApiResult.new(status: :internal_error, message: DB_FIND_ERROR))
       end
     end
   end
