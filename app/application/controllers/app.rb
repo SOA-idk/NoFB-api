@@ -165,20 +165,24 @@ module NoFB
                 ).to_json
               end
             end
+
             routing.on String do |user_id|
-              result = Service::FindUser.new.call(user_id: user_id)
+              # GET /api/v1/users/{user_id}
+              routing.get do
+                result = Service::FindUser.new.call(user_id: user_id)
 
-              if result.failure?
-                failed = Representer::HttpResponse.new(result.failure)
-                routing.halt failed.http_status_code, failed.to_json
+                if result.failure?
+                  failed = Representer::HttpResponse.new(result.failure)
+                  routing.halt failed.http_status_code, failed.to_json
+                end
+
+                http_response = Representer::HttpResponse.new(result.value!)
+                response.status = http_response.http_status_code
+
+                Representer::User.new(
+                  result.value!.message
+                ).to_json
               end
-
-              http_response = Representer::HttpResponse.new(result.value!)
-              response.status = http_response.http_status_code
-
-              Representer::User.new(
-                result.value!.message
-              ).to_json
             end
           end
 
@@ -222,7 +226,6 @@ module NoFB
           end
 
           routing.on 'subscribes' do
-
             # PATH /api/v1/subscribes
             routing.is do
               # GET /api/v1/subscribes - all users' subscription
@@ -260,8 +263,8 @@ module NoFB
               end
             end
 
-            # GET /api/v1/subscribes/{user_id}
             routing.on String do |user_id|
+              # GET /api/v1/subscribes/{user_id}
               routing.get do
                 result = Service::ShowUserSubscribes.new.call(user_id: user_id)
 
@@ -277,42 +280,42 @@ module NoFB
                   result.value!.message
                 ).to_json
               end
-            end
 
-            routing.on String, String do |user_id, group_id|
-              # DELETE /api/v1/subscribes/{user_id}/{group_id}
-              routing.delete do
-                result = Service::DeleteSubscription.new.call(user_id: user_id, group_id: group_id)
-                if result.failure?
-                  failed = Representer::HttpResponse.new(result.failure)
-                  routing.halt failed.http_status_code, failed.to_json
+              routing.on String do |group_id|
+                # DELETE /api/v1/subscribes/{user_id}/{group_id}
+                routing.delete do
+                  result = Service::DeleteSubscription.new.call(user_id: user_id, group_id: group_id)
+                  if result.failure?
+                    failed = Representer::HttpResponse.new(result.failure)
+                    routing.halt failed.http_status_code, failed.to_json
+                  end
+
+                  http_response = Representer::HttpResponse.new(result.value!)
+                  response.status = http_response.http_status_code
+
+                  Representer::SubscribesList.new(
+                    result.value!.message
+                  ).to_json
                 end
 
-                http_response = Representer::HttpResponse.new(result.value!)
-                response.status = http_response.http_status_code
+                # PATCH /api/v1/subscribes/{user_id}/{group_id}
+                routing.patch do
+                  result = Service::UpdateSubscription.new.call(user_id: user_id,
+                                                                group_id: group_id,
+                                                                word: routing.params['subscribed_word'])
 
-                Representer::SubscribesList.new(
-                  result.value!.message
-                ).to_json
-              end
+                  if result.failure?
+                    failed = Representer::HttpResponse.new(result.failure)
+                    routing.halt failed.http_status_code, failed.to_json
+                  end
 
-              # PATCH /api/v1/subscribes/{user_id}/{group_id}
-              routing.patch do
-                result = Service::UpdateSubscription.new.call(user_id: user_id,
-                                                              group_id: group_id,
-                                                              word: routing.params['subscribed_word'])
+                  http_response = Representer::HttpResponse.new(result.value!)
+                  response.status = http_response.http_status_code
 
-                if result.failure?
-                  failed = Representer::HttpResponse.new(result.failure)
-                  routing.halt failed.http_status_code, failed.to_json
+                  Representer::Subscribe.new(
+                    result.value!.message.subscribe
+                  ).to_json
                 end
-
-                http_response = Representer::HttpResponse.new(result.value!)
-                response.status = http_response.http_status_code
-
-                Representer::Subscribe.new(
-                  result.value!.message.subscribe
-                ).to_json
               end
             end
           end
