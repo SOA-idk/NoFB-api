@@ -79,20 +79,26 @@ Status:
 `GET /posts?access_key={access_key}`
 `GET /groups?access_key={access_key}`
 `GET /subscribes?access_key={access_key}`
+`GET /subscribes/{user_id}access_key={access_key}`
 
 Status
 
 - 200: content returned (happy)
 - 403: problems about the access_key (sad)
+- 404: Not Found
 - 500: problem of DB (bad)
 
-### Create a new subscribe
-
+### Create a new record
+#### Subscribes
 `POST /subscribes?access_key={access_key}`
 `Body: user_id(Text), fb_url(Text), subscribed_word(Text)`
 
-- 201: new subscribe stored (happy)
-- 400: the given subscribe has existed (sad)
+#### User
+`POST /users?access_key={access_key}`
+`Body: user_id(Text), user_name(Text), user_email(Text), user_img(Text)`
+
+- 201: new subscribe/user stored (happy)
+- 400: the given subscribe/user has existed (sad)
 - 403: problems about the access_key (sad)
 - 500: problems of DB (bad)
 
