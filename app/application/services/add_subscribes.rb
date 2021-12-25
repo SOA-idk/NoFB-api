@@ -35,7 +35,7 @@ module NoFB
           Success(input)
         else
           Failure(Response::ApiResult.new(
-                    status: :bad_request,
+                    status: :conflict,
                     message: 'You already subscribe to this group, go to edit it.'
                   ))
         end

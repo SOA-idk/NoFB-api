@@ -33,17 +33,15 @@ module NoFB
         end
       end
 
-      # :reek:NilCheck
-      def self.db_update_or_create(entity)
+      def self.db_update(entity)
         existing = find_id(entity[:user_id])
-        if existing.nil?
-          Database::UsersOrm.create(entity)
-        else
-          # update user
-          update_info = Entity::User.new(user_id: existing.user_id.to_s, user_email: entity.user_email.to_s,
-                                         user_name: existing.user_name.to_s, user_img: existing.user_img.to_s)
-          Database::UsersOrm.update(update_info)
-        end
+        return nil unless existing
+
+        Database::UsersOrm.update(existing)
+      end
+
+      def self.db_create(entity)
+        Database::UsersOrm.find_or_create(entity)
       end
     end
   end

@@ -129,10 +129,44 @@ module NoFB
 
       routing.on 'api/v1' do
         if routing.params['access_key'] == '123'
-          # GET /api/v1/users
           routing.on 'users' do
-            routing.get do
-              result = Service::ShowUsers.new.call
+            routing.is do
+              # GET /api/v1/users
+              routing.get do
+                result = Service::ShowUsers.new.call
+
+                if result.failure?
+                  failed = Representer::HttpResponse.new(result.failure)
+                  routing.halt failed.http_status_code, failed.to_json
+                end
+
+                http_response = Representer::HttpResponse.new(result.value!)
+                response.status = http_response.http_status_code
+
+                Representer::UsersList.new(
+                  result.value!.message
+                ).to_json
+              end
+
+              # POST /api/v1/users?{params}
+              routing.post do
+                result = Service::AddUser.new.call(routing.params)
+
+                if result.failure?
+                  failed = Representer::HttpResponse.new(result.failure)
+                  routing.halt failed.http_status_code, failed.to_json
+                end
+
+                http_response = Representer::HttpResponse.new(result.value!)
+                response.status = http_response.http_status_code
+
+                Representer::User.new(
+                  result.value!.message
+                ).to_json
+              end
+            end
+            routing.on String do |user_id|
+              result = Service::FindUser.new.call(user_id: user_id)
 
               if result.failure?
                 failed = Representer::HttpResponse.new(result.failure)
@@ -142,7 +176,7 @@ module NoFB
               http_response = Representer::HttpResponse.new(result.value!)
               response.status = http_response.http_status_code
 
-              Representer::UsersList.new(
+              Representer::User.new(
                 result.value!.message
               ).to_json
             end
@@ -188,38 +222,61 @@ module NoFB
           end
 
           routing.on 'subscribes' do
-            # GET /api/v1/subscribes
-            routing.get do
-              result = Service::ShowSubscribes.new.call
 
-              if result.failure?
-                failed = Representer::HttpResponse.new(result.failure)
-                routing.halt failed.http_status_code, failed.to_json
+            # PATH /api/v1/subscribes
+            routing.is do
+              # GET /api/v1/subscribes - all users' subscription
+              routing.get do
+                result = Service::ShowSubscribes.new.call
+
+                if result.failure?
+                  failed = Representer::HttpResponse.new(result.failure)
+                  routing.halt failed.http_status_code, failed.to_json
+                end
+
+                http_response = Representer::HttpResponse.new(result.value!)
+                response.status = http_response.http_status_code
+
+                Representer::SubscribesList.new(
+                  result.value!.message
+                ).to_json
               end
 
-              http_response = Representer::HttpResponse.new(result.value!)
-              response.status = http_response.http_status_code
+              # POST /api/v1/subscribes?{params}
+              routing.post do
+                result = Service::AddSubscriptions.new.call(routing.params)
 
-              Representer::SubscribesList.new(
-                result.value!.message
-              ).to_json
+                if result.failure?
+                  failed = Representer::HttpResponse.new(result.failure)
+                  routing.halt failed.http_status_code, failed.to_json
+                end
+
+                http_response = Representer::HttpResponse.new(result.value!)
+                response.status = http_response.http_status_code
+
+                Representer::SubscribesList.new(
+                  result.value!.message
+                ).to_json
+              end
             end
 
-            # POST /api/v1/subscribes
-            routing.post do
-              result = Service::AddSubscriptions.new.call(routing.params)
+            # GET /api/v1/subscribes/{user_id}
+            routing.on String do |user_id|
+              routing.get do
+                result = Service::ShowUserSubscribes.new.call(user_id: user_id)
 
-              if result.failure?
-                failed = Representer::HttpResponse.new(result.failure)
-                routing.halt failed.http_status_code, failed.to_json
+                if result.failure?
+                  failed = Representer::HttpResponse.new(result.failure)
+                  routing.halt failed.http_status_code, failed.to_json
+                end
+
+                http_response = Representer::HttpResponse.new(result.value!)
+                response.status = http_response.http_status_code
+
+                Representer::SubscribesList.new(
+                  result.value!.message
+                ).to_json
               end
-
-              http_response = Representer::HttpResponse.new(result.value!)
-              response.status = http_response.http_status_code
-
-              Representer::SubscribesList.new(
-                result.value!.message
-              ).to_json
             end
 
             routing.on String, String do |user_id, group_id|
@@ -253,8 +310,6 @@ module NoFB
                 http_response = Representer::HttpResponse.new(result.value!)
                 response.status = http_response.http_status_code
 
-                # puts 'result:'
-                # puts result
                 Representer::Subscribe.new(
                   result.value!.message.subscribe
                 ).to_json
