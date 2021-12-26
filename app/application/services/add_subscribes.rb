@@ -22,12 +22,13 @@ module NoFB
       URL_REGEX = %r{(https?)://(www.)?facebook\.com}
 
       def parse_url(input)
+        # check facebook url is valid
         Failure(Response::ApiResult.new(status: :not_found, message: URL_ERROR)) unless URL_REGEX.match?(input['fb_url'])
 
-        user_id = '123'
         group_id = input['fb_url'].downcase.split('/')[-1..][0].strip
-        subscribed_word = input['subscribed_word']
-        Success(group_id: group_id, subscribed_word: subscribed_word, user_id: user_id)
+        Success(group_id: group_id,
+                subscribed_word: input['subscribed_word'],
+                user_id: input['user_id'])
       end
 
       def find_subscribes(input)
@@ -55,8 +56,7 @@ module NoFB
       def show_subscribes(input)
         # show all current subscribed word
         content = Repository::For.klass(Entity::Subscribes)
-                                 .find_all(user_id: input[:user_id])
-
+                                 .find_all(input[:user_id])
         Response::SubscribesList.new(content)
                                 .then { |list| Response::ApiResult.new(status: :created, message: list) }
                                 .then { |result| Success(result) }
