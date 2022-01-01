@@ -211,7 +211,6 @@ module NoFB
             routing.on String do |user_id|
               routing.get do
                 result = Service::FindUserNotify.new.call(user_id: user_id)
-
                 if result.failure?
                   failed = Representer::HttpResponse.new(result.failure)
                   routing.halt failed.http_status_code, failed.to_json

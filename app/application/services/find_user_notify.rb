@@ -22,7 +22,7 @@ module NoFB
         if content.nil?
           Failure(Response::ApiResult.new(status: :not_found, message: NOT_EXIST))
         else
-          Response::ApiResult.new(status: status, message: content)
+          Response::ApiResult.new(status: :ok, message: content)
                              .then { |result| Success(result) }
         end
       rescue StandardError
