@@ -67,6 +67,11 @@ rake db:drop
 | ------- | -------- | ------ |
 | String  | String   | String |
 
+5. user_notify
+| user_id | user_access_token | 
+| ------- | -------- | 
+| String  | String   |
+
 ## Routes
 ### Root check
 `GET /`
@@ -80,6 +85,7 @@ Status:
 `GET /groups?access_key={access_key}`
 `GET /subscribes?access_key={access_key}`
 `GET /subscribes/{user_id}access_key={access_key}`
+`GET /notify/{user_id}?access_key={access_key}`
 
 Status
 
@@ -119,4 +125,12 @@ Status
 - 200: subscribe deleted (happy)
 - 403: problems about the access_key (sad)
 - 404: the given subscribe not found (sad)
+- 500: problems of DB (bad)
+
+### Create user notify info
+`POST /api/v1/notify?access_key={access_key}`
+`Body: user_id(Text), user_access_token(Text)`
+
+- 201: new notify info stored (happy)
+- 403: problems about the access_key (sad)
 - 500: problems of DB (bad)

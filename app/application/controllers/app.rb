@@ -186,6 +186,47 @@ module NoFB
             end
           end
 
+          # PATH /api/v1/notify
+          routing.on 'notify' do
+            routing.is do
+              # POST /api/v1/notify
+              routing.post do
+                result = Service::AddUserNotify.new.call(routing.params)
+
+                if result.failure?
+                  failed = Representer::HttpResponse.new(result.failure)
+                  routing.halt failed.http_status_code, failed.to_json
+                end
+
+                http_response = Representer::HttpResponse.new(result.value!)
+                response.status = http_response.http_status_code
+
+                Representer::UserNotify.new(
+                  result.value!.message
+                ).to_json
+              end
+            end
+
+            # GET /api/v1/notify/{user_id}
+            routing.on String do |user_id|
+              routing.get do
+                result = Service::FindUserNotify.new.call(user_id: user_id)
+
+                if result.failure?
+                  failed = Representer::HttpResponse.new(result.failure)
+                  routing.halt failed.http_status_code, failed.to_json
+                end
+
+                http_response = Representer::HttpResponse.new(result.value!)
+                response.status = http_response.http_status_code
+
+                Representer::UserNotify.new(
+                  result.value!.message
+                ).to_json
+              end
+            end
+          end
+
           # GET /api/v1/posts
           routing.on 'posts' do
             routing.get do
