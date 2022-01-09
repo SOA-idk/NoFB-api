@@ -83,6 +83,7 @@ Status:
 `GET /users?access_key={access_key}`
 `GET /posts?access_key={access_key}`
 `GET /groups?access_key={access_key}`
+`GET /groups/{group_id}?access_key={access_key}`
 `GET /subscribes?access_key={access_key}`
 `GET /subscribes/{user_id}access_key={access_key}`
 `GET /notify/{user_id}?access_key={access_key}`

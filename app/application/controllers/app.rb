@@ -128,7 +128,7 @@ module NoFB
       end
 
       routing.on 'api/v1' do
-        if routing.params['access_key'] == '123'
+        if routing.params['access_key'] == App.config.ACCESS_KEY
           routing.on 'users' do
             routing.is do
               # GET /api/v1/users
@@ -249,19 +249,39 @@ module NoFB
           # GET /api/v1/groups
           routing.on 'groups' do
             routing.get do
-              result = Service::ShowGroups.new.call
+              # PATH /api/v1/groups - show all the groups
+              routing.is do
+                result = Service::ShowGroups.new.call
 
-              if result.failure?
-                failed = Representer::HttpResponse.new(result.failure)
-                routing.halt failed.http_status_code, failed.to_json
+                if result.failure?
+                  failed = Representer::HttpResponse.new(result.failure)
+                  routing.halt failed.http_status_code, failed.to_json
+                end
+
+                http_response = Representer::HttpResponse.new(result.value!)
+                response.status = http_response.http_status_code
+
+                Representer::GroupsList.new(
+                  result.value!.message
+                ).to_json
               end
 
-              http_response = Representer::HttpResponse.new(result.value!)
-              response.status = http_response.http_status_code
+              # PATH /api/v1/groups/{group_id} - show group name
+              routing.on String do |group_id|
+                result = Service::ShowOneGroup.new.call(group_id: group_id)
 
-              Representer::GroupsList.new(
-                result.value!.message
-              ).to_json
+                if result.failure?
+                  failed = Representer::HttpResponse.new(result.failure)
+                  routing.halt failed.http_status_code, failed.to_json
+                end
+
+                http_response = Representer::HttpResponse.new(result.value!)
+                response.status = http_response.http_status_code
+
+                Representer::Group.new(
+                  result.value!.message
+                ).to_json
+              end
             end
           end
 
