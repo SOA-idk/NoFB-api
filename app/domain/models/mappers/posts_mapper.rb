@@ -24,7 +24,8 @@ module NoFB
           posts: posts,
           size: posts.length,
           post_list: posts.map(&:post_id),
-          group_id: group_id
+          group_id: group_id,
+          group_name: group_id.to_s
         )
       end
 

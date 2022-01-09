@@ -248,40 +248,39 @@ module NoFB
 
           # GET /api/v1/groups
           routing.on 'groups' do
-            routing.get do
-              # PATH /api/v1/groups - show all the groups
-              routing.is do
-                result = Service::ShowGroups.new.call
+            # PATH /api/v1/groups - show all the groups
+            routing.is do
+              result = Service::ShowGroups.new.call
 
-                if result.failure?
-                  failed = Representer::HttpResponse.new(result.failure)
-                  routing.halt failed.http_status_code, failed.to_json
-                end
-
-                http_response = Representer::HttpResponse.new(result.value!)
-                response.status = http_response.http_status_code
-
-                Representer::GroupsList.new(
-                  result.value!.message
-                ).to_json
+              if result.failure?
+                failed = Representer::HttpResponse.new(result.failure)
+                routing.halt failed.http_status_code, failed.to_json
               end
 
-              # PATH /api/v1/groups/{group_id} - show group name
-              routing.on String do |group_id|
-                result = Service::ShowOneGroup.new.call(group_id: group_id)
+              http_response = Representer::HttpResponse.new(result.value!)
+              response.status = http_response.http_status_code
 
-                if result.failure?
-                  failed = Representer::HttpResponse.new(result.failure)
-                  routing.halt failed.http_status_code, failed.to_json
-                end
+              Representer::GroupsList.new(
+                result.value!.message
+              ).to_json
+            end
 
-                http_response = Representer::HttpResponse.new(result.value!)
-                response.status = http_response.http_status_code
+            # PATH /api/v1/groups/{group_id} - show group name
+            routing.on String do |group_id|
+              result = Service::ShowOneGroup.new.call(group_id: group_id)
 
-                Representer::Group.new(
-                  result.value!.message
-                ).to_json
+              if result.failure?
+                failed = Representer::HttpResponse.new(result.failure)
+                routing.halt failed.http_status_code, failed.to_json
               end
+
+              http_response = Representer::HttpResponse.new(result.value!)
+              response.status = http_response.http_status_code
+
+              puts result.value!.message
+              Representer::Group.new(
+                result.value!.message
+              ).to_json
             end
           end
 
